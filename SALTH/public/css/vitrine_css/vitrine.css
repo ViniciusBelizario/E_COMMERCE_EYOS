@@ -1,0 +1,37 @@
+/* ============================
+   Estilos Gerais
+   ============================ */
+   body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+}
+
+h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* ============================
+   Página de Categoria
+   ============================ */
+.category-page {
+    display: flex;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    gap: 20px;
+}
+
+/* ============================
+   Responsividade Geral
+   ============================ */
+@media (max-width: 992px) {
+    .category-page {
+        flex-direction: column;
+        padding: 10px;
+    }
+}

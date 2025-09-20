@@ -1,0 +1,184 @@
+/* ============================
+   Estilo da Página de Configurações
+============================ */
+#settings {
+    padding: 30px;
+    background: linear-gradient(135deg, #ffffff, #f9fafb);
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+#settings h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#settings p {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* ============================
+   Estilo do Formulário
+============================ */
+.settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+fieldset {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+legend {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #007BFF;
+    padding: 0 10px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #1f2937;
+}
+
+.form-group input {
+    padding: 10px 15px;
+    font-size: 1rem;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+/* ============================
+   Cartões Salvos
+============================ */
+.saved-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f9fafb;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-item p {
+    font-size: 1rem;
+    color: #1f2937;
+}
+
+.btn-remove-card {
+    padding: 8px 12px;
+    background: #ff4d4d;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-remove-card:hover {
+    background: #d43535;
+}
+
+.btn-add-card {
+    padding: 10px 15px;
+    background: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+}
+
+.btn-add-card:hover {
+    background: #0056b3;
+}
+
+/* ============================
+   Botões do Formulário
+============================ */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.btn-save, .btn-cancel {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-save {
+    background: #007BFF;
+    color: #fff;
+}
+
+.btn-save:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+}
+
+.btn-cancel {
+    background: #ddd;
+    color: #333;
+}
+
+.btn-cancel:hover {
+    background: #bbb;
+    transform: scale(1.05);
+}
+
+/* ============================
+   Responsividade
+============================ */
+@media (max-width: 768px) {
+    .form-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .saved-cards {
+        gap: 10px;
+    }
+}

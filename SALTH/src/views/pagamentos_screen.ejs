@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Meta Description -->
+  <meta name="description" content="Finalize sua compra com segurança e praticidade.">
+  <link rel="icon" href="/images/logo_preta.png" type="image/png" />
+
+  <!-- Título Dinâmico -->
+  <title><%= title || "Checkout - Minha Loja" %></title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/pagamentos.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header>
+    <%- include("partials/navbar") %>
+  </header>
+
+  <main>
+    <section class="checkout-section">
+      <div class="checkout-container">
+
+        <!-- 📌 COLUNA ESQUERDA: FORMULÁRIO DO CLIENTE -->
+        <div class="checkout-form-wrapper">
+          <h2>Dados do Cliente</h2>
+          <form action="/pagamentos/confirmar" method="POST" class="checkout-form">
+            
+            <div class="form-group">
+              <label for="nome">Nome</label>
+              <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
+            </div>
+
+            <div class="form-group">
+              <label for="sobrenome">Sobrenome</label>
+              <input type="text" id="sobrenome" name="sobrenome" placeholder="Seu sobrenome" required>
+            </div>
+
+            <div class="form-group">
+              <label for="email">E-mail</label>
+              <input type="email" id="email" name="email" placeholder="exemplo@dominio.com" required>
+            </div>
+
+            <div class="form-group">
+              <label for="cpf">CPF</label>
+              <input type="text" id="cpf" name="cpf" placeholder="123.456.789-00" required>
+            </div>
+
+            <h3>Endereço de Entrega</h3>
+            
+            <div class="form-group">
+              <label for="endereco">Endereço</label>
+              <input type="text" id="endereco" name="endereco" placeholder="Rua, número, complemento" required>
+            </div>
+
+            <div class="form-group">
+              <label for="cidade">Cidade</label>
+              <input type="text" id="cidade" name="cidade" placeholder="Ex.: São Paulo" required>
+            </div>
+
+            <div class="form-group-inline">
+              <div class="form-group">
+                <label for="estado">Estado</label>
+                <input type="text" id="estado" name="estado" placeholder="Ex.: SP" required>
+              </div>
+              <div class="form-group">
+                <label for="cep">CEP</label>
+                <input type="text" id="cep" name="cep" placeholder="00000-000" required>
+              </div>
+            </div>
+
+            <h3>Método de Pagamento</h3>
+            <div class="payment-methods">
+              <label><input type="radio" name="metodoPagamento" value="cartaoCredito" checked> Cartão de Crédito</label>
+              <label><input type="radio" name="metodoPagamento" value="pix"> Pix</label>
+              <label><input type="radio" name="metodoPagamento" value="boleto"> Boleto Bancário</label>
+            </div>
+
+            <div class="cartao-info">
+              <div class="form-group">
+                <label for="numeroCartao">Número do Cartão</label>
+                <input type="text" id="numeroCartao" name="numeroCartao" placeholder="**** **** **** ****">
+              </div>
+              <div class="form-group-inline">
+                <div class="form-group">
+                  <label for="validadeCartao">Validade</label>
+                  <input type="text" id="validadeCartao" name="validadeCartao" placeholder="MM/AA">
+                </div>
+                <div class="form-group">
+                  <label for="cvvCartao">CVV</label>
+                  <input type="text" id="cvvCartao" name="cvvCartao" placeholder="3 dígitos">
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-confirmar">Confirmar Pagamento</button>
+          </form>
+        </div>
+
+        <!-- 📌 COLUNA DIREITA: RESUMO DO PEDIDO -->
+        <div class="order-summary-wrapper">
+          <h2>Resumo do Pedido</h2>
+
+          <% if (items && items.length > 0) { %>
+            <ul class="order-items">
+              <% items.forEach(item => { %>
+                <li class="order-item">
+                  <!-- 🖼️ Imagem do Produto -->
+                  <div class="item-img">
+                    <img src="http://localhost:3001<%= item.imagem_url %>" alt="<%= item.nome %>">
+                  </div>
+
+                  <!-- 📦 Informações do Produto -->
+                  <div class="item-info">
+                    <span class="item-name"><%= item.nome %> (x<%= item.quantidade %>)</span>
+                    <span class="item-price">R$ <%= (item.preco * item.quantidade).toFixed(2) %></span>
+
+                    <!-- 🎨 Cor (se houver) -->
+                    <% if (item.cor) { %>
+                      <div class="item-detail">
+                        Cor: <span class="color-circle" style="background-color:<%= item.cor %>;"></span>
+                      </div>
+                    <% } %>
+
+                    <!-- 📏 Tamanho (se houver) -->
+                    <% if (item.tamanho) { %>
+                      <div class="item-detail">
+                        Tamanho: <%= item.tamanho %>
+                      </div>
+                    <% } %>
+                  </div>
+                </li>
+              <% }) %>
+            </ul>
+
+            <div class="order-subtotal">Subtotal: R$ <%= subtotal.toFixed(2) %></div>
+            <div class="order-frete">Frete: R$ <%= frete.toFixed(2) %></div>
+            <div class="order-total">Total: R$ <%= total.toFixed(2) %></div>
+
+          <% } else { %>
+            <p>Não há itens no carrinho.</p>
+          <% } %>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <%- include("partials/footer") %>
+  </footer>
+
+  <script src="/js/pagamentos.js"></script>
+</body>
+</html>

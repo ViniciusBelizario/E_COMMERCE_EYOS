@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fabric Xperience | Salth</title>
+    
+    <!-- Estilos CSS por seção -->
+    <link rel="stylesheet" href="/css/fabric_experience/video_section.css"> <!-- Estilo da seção de vídeo -->
+    <link rel="stylesheet" href="/css/fabric_experience/benefits_section.css"> <!-- Estilo da seção de benefícios -->
+    <link rel="stylesheet" href="/css/fabric_experience/interactive_section.css"> <!-- Estilo do slider -->
+    <link rel="stylesheet" href="/css/fabric_experience/comparison_section.css"> <!-- Estilo da comparação -->
+    <link rel="stylesheet" href="/css/fabric_experience/future_material.css"> <!-- Estilo do Call-to-Action -->
+    <link rel="stylesheet" href="/css/fabric_experience/cta_section.css"> <!-- Estilo do Call-to-Action -->
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="icon" href="/images/logo_preta.png" type="image/png" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header com Navbar -->
+   
+        <%- include('partials/navbar') %>
+    
+
+    <!-- Main Content -->
+ 
+        <!-- Seção: Vídeo sobre o tecido -->
+        <section class="video-section">
+            <div class="video-container">
+                <video autoplay muted loop>
+                    <source src="/videos/fabric_expirience_video.mp4" type="video/mp4">
+                    Seu navegador não suporta vídeos HTML5.
+                </video>
+            </div>
+            <div class="video-overlay">
+                <h1>Descubra o Tecido do Futuro</h1>
+                <p>Inovação e conforto como nunca antes.</p>
+            </div>
+        </section>
+
+        <!-- Seção: Benefícios -->
+        <section class="benefits-section">
+            <h2>Conheça o melhor tecido do mundo!</h2>
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <img src="/images/fabric_breathable.png" alt="Respirável">
+                    <h3>Respirável</h3>
+                    <p>Permite a circulação de ar para máximo conforto.</p>
+                </div>
+                <div class="benefit-item">
+                    <img src="/images/fabric_sustainable.png" alt="Sustentável">
+                    <h3>Sustentável</h3>
+                    <p>Feito com materiais ecológicos, cuidando do planeta.</p>
+                </div>
+                <div class="benefit-item">
+                    <img src="/images/fabric_durable.png" alt="Durável">
+                    <h3>Durável</h3>
+                    <p>Projetado para resistir ao desgaste diário.</p>
+                </div>
+            </div>
+        </section>
+
+       <!-- Seção: Nossa Fábrica -->
+<section class="factory-section">
+    <h2>Veja Nossos Tecidos em Ação</h2>
+    <div class="slider-container">
+        <div class="slider">
+            <!-- Etapa 1 -->
+            <div class="slide">
+                <img src="https://via.placeholder.com/600x400?text=Etapa+1" alt="Etapa 1">
+                <div class="slide-content">
+                    <h3>Etapa 1: Análise do Material</h3>
+                    <p>Nossos especialistas avaliam a qualidade do tecido para garantir o melhor desempenho em diversas aplicações.</p>
+                </div>
+            </div>
+            <!-- Etapa 2 -->
+            <div class="slide">
+                <img src="https://via.placeholder.com/600x400?text=Etapa+2" alt="Etapa 2">
+                <div class="slide-content">
+                    <h3>Etapa 2: Teste de Resistência</h3>
+                    <p>Simulamos condições extremas para verificar a durabilidade do tecido em diferentes situações.</p>
+                </div>
+            </div>
+            <!-- Etapa 3 -->
+            <div class="slide">
+                <img src="https://via.placeholder.com/600x400?text=Etapa+3" alt="Etapa 3">
+                <div class="slide-content">
+                    <h3>Etapa 3: Ajuste de Textura</h3>
+                    <p>Ajustamos a textura do tecido para oferecer conforto superior e um acabamento impecável.</p>
+                </div>
+            </div>
+            <!-- Etapa 4 -->
+            <div class="slide">
+                <img src="https://via.placeholder.com/600x400?text=Etapa+4" alt="Etapa 4">
+                <div class="slide-content">
+                    <h3>Etapa 4: Aprovação Final</h3>
+                    <p>Cada lote passa por uma inspeção rigorosa antes de ser enviado aos nossos clientes.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+        <!-- Seção: Comparação -->
+<section class="comparison-section">
+    <h2>Comparação de Materiais</h2>
+    <div class="comparison-slider">
+        <!-- Slide 1 -->
+        <div class="comparison-slide">
+            <div class="comparison-content">
+                <img src="https://via.placeholder.com/600x400?text=Respirabilidade+Salth" alt="Respirabilidade Salth">
+                <p><strong>Salth:</strong> Tecido com respirabilidade superior, permitindo máxima circulação de ar e conforto.</p>
+            </div>
+            <div class="comparison-content">
+                <img src="https://via.placeholder.com/600x400?text=Respirabilidade+Concorrente" alt="Respirabilidade Concorrente">
+                <p><strong>Concorrência:</strong> Tecidos com baixa respirabilidade, causando desconforto em climas quentes.</p>
+            </div>
+        </div>
+        <!-- Slide 2 -->
+        <div class="comparison-slide">
+            <div class="comparison-content">
+                <img src="https://via.placeholder.com/600x400?text=Sustentabilidade+Salth" alt="Sustentabilidade Salth">
+                <p><strong>Salth:</strong> Produzido com materiais ecológicos, promovendo sustentabilidade para o planeta.</p>
+            </div>
+            <div class="comparison-content">
+                <img src="https://via.placeholder.com/600x400?text=Sustentabilidade+Concorrente" alt="Sustentabilidade Concorrente">
+                <p><strong>Concorrência:</strong> Produção com materiais nocivos e pouca preocupação ambiental.</p>
+            </div>
+        </div>
+        <!-- Slide 3 -->
+        <div class="comparison-slide">
+            <div class="comparison-content">
+                <img src="https://via.placeholder.com/600x400?text=Durabilidade+Salth" alt="Durabilidade Salth">
+                <p><strong>Salth:</strong> Alta durabilidade, projetado para resistir ao desgaste diário.</p>
+            </div>
+            <div class="comparison-content">
+                <img src="https://via.placeholder.com/600x400?text=Durabilidade+Concorrente" alt="Durabilidade Concorrente">
+                <p><strong>Concorrência:</strong> Material frágil, apresentando desgaste em pouco tempo de uso.</p>
+            </div>
+        </div>
+    </div>
+    <!-- Navegação -->
+    <div class="slider-navigation">
+        <button class="prev-slide">Anterior</button>
+        <button class="next-slide">Próximo</button>
+    </div>
+</section>
+
+
+<!-- Seção: Tecidos do Futuro -->
+<section class="future-materials-section">
+    <div class="materials-header">
+        <h2>Tecidos do Futuro</h2>
+        <p>Descubra as inovações tecnológicas por trás dos nossos tecidos avançados.</p>
+    </div>
+    <!-- Fileira 1 -->
+    <div class="materials-grid">
+        <div class="material-item" data-material="pcm-outlast">
+            <img src="https://via.placeholder.com/150x150?text=PCM/Outlast" alt="PCM/Outlast">
+            <p>PCM/Outlast</p>
+        </div>
+        <div class="material-item" data-material="biodegradable">
+            <img src="https://via.placeholder.com/150x150?text=Biodegradável" alt="Biodegradável">
+            <p>Biodegradável</p>
+        </div>
+        <div class="material-item" data-material="antimicrobial">
+            <img src="https://via.placeholder.com/150x150?text=Antimicrobiano" alt="Antimicrobiano">
+            <p>Antimicrobiano</p>
+        </div>
+        <div class="material-item" data-material="thermal-regulation">
+            <img src="https://via.placeholder.com/150x150?text=Regulação+Térmica" alt="Regulação Térmica">
+            <p>Regulação Térmica</p>
+        </div>
+        <div class="material-item" data-material="water-repellent">
+            <img src="https://via.placeholder.com/150x150?text=Hidrorepelente" alt="Hidrorepelente">
+            <p>Hidrorepelente</p>
+        </div>
+    </div>
+    <!-- Fileira 2 -->
+    <div class="materials-grid">
+        <div class="material-item" data-material="infrared">
+            <img src="https://via.placeholder.com/150x150?text=Infravermelho" alt="Infravermelho">
+            <p>Infravermelho</p>
+        </div>
+        <div class="material-item" data-material="ultraflexible">
+            <img src="https://via.placeholder.com/150x150?text=Ultraflexível" alt="Ultraflexível">
+            <p>Ultraflexível</p>
+        </div>
+        <div class="material-item" data-material="uv-protection">
+            <img src="https://via.placeholder.com/150x150?text=Proteção+UV" alt="Proteção UV">
+            <p>Proteção UV</p>
+        </div>
+        <div class="material-item" data-material="anti-humidity">
+            <img src="https://via.placeholder.com/150x150?text=Antiumidade" alt="Antiumidade">
+            <p>Antiumidade</p>
+        </div>
+        <div class="material-item" data-material="ultrasoft">
+            <img src="https://via.placeholder.com/150x150?text=Ultramacio" alt="Ultramacio">
+            <p>Ultramacio</p>
+        </div>
+    </div>
+</section>
+
+<!-- Modal (invisível por padrão) -->
+<div id="material-modal" class="material-modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div class="modal-body">
+            <img id="modal-image" src="https://via.placeholder.com/300x300" alt="Material">
+            <div class="modal-text">
+                <h3 id="modal-title"></h3>
+                <p id="modal-description"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal (invisível por padrão) -->
+<div id="material-modal" class="material-modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3 id="modal-title"></h3>
+        <p id="modal-description"></p>
+    </div>
+</div>
+
+
+
+        <!-- Call-to-Action Final -->
+        <section class="cta-section">
+            <h2>Pronto para Transformar sua Experiência?</h2>
+            <p>Descubra como nossos tecidos podem revolucionar seu dia a dia.</p>
+            <a href="/vitrine" class="cta-button">Explore Produtos</a>
+        </section>
+
+
+    <!-- Footer -->
+    <footer>
+        <%- include('partials/footer') %>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="/js/fabric_experience.js"></script>
+</body>
+</html>

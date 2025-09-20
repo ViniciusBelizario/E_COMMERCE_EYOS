@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+
+  <!-- CSS Global e Específico -->
+  <link rel="stylesheet" href="/css/sustentabilidade/hero_sustentabilidade.css">
+  <link rel="stylesheet" href="/css/sustentabilidade/sobre_pima_sustentabilidade.css">
+  <link rel="stylesheet" href="/css/sustentabilidade/impacto_sustentabilidade.css">
+  <link rel="stylesheet" href="/css/sustentabilidade/processo_sustentabilidade.css">
+  <link rel="stylesheet" href="/css/sustentabilidade/call_to_action_sustentabilidade.css">
+  <link rel="icon" href="/images/logo_preta.png" type="image/png" />
+</head>
+<body>
+  
+  <!-- Navbar -->
+
+    <%- include('partials/navbar') %>
+  
+  
+
+    <!-- Hero Section -->
+    <section class="hero-sustentabilidade">
+      <!-- Vídeo de Fundo -->
+      <video class="hero-video" src="/videos/hero_sustentabilidade_principal.mp4" autoplay muted loop></video>
+      
+      <!-- Sobreposição -->
+      <div class="hero-overlay"></div>
+      
+      <!-- Conteúdo da Hero -->
+      <div class="hero-content">
+        <h1 class="hero-title">Sustentabilidade na Essência</h1>
+        <p class="hero-description">
+          Produzido com responsabilidade ambiental, o algodão Pima é a base do nosso compromisso com o planeta.
+        </p>
+        <a href="#sobre-pima" class="hero-button">Saiba Mais</a>
+      </div>
+    </section>
+    
+    <!-- Sobre o Algodão Pima -->
+    <section id="sobre-pima" class="sobre-pima">
+      <div class="sobre-pima-container">
+        <!-- Container do Vídeo -->
+        <aside class="video-container">
+          <video src="/videos/sobre_pima.mp4" autoplay muted loop class="video"></video>
+        </aside>
+    
+        <!-- Container do Texto -->
+        <div class="text-container">
+          <h2 class="sobre-pima-title">Produção Ética e Sustentável</h2>
+          <p class="sobre-pima-description">
+            O algodão Pima é cultivado de forma ética, respeitando o meio ambiente e as comunidades locais. Um material que reflete qualidade e cuidado.
+          </p>
+        </div>
+      </div>
+    </section>
+    
+    <section class="impacto-numeros" id="impacto-numeros">
+        <div class="impacto-container">
+          <h2 class="impacto-title">Nosso Impacto em Números</h2>
+          <div class="cards">
+            <!-- Card 1 -->
+            <div class="card">
+              <div class="icon-container">
+                <img src="/images/agua_protect.jpg" alt="Redução no consumo de água" class="card-image">
+              </div>
+              <h3 class="card-percentage">70%</h3>
+              <p class="card-description">Redução no consumo de água durante o cultivo do algodão.</p>
+            </div>
+            <!-- Card 2 -->
+            <div class="card">
+              <div class="icon-container">
+                <img src="/images/florest-protect.jpg" alt="Fornecedores éticos e sustentáveis" class="card-image">
+              </div>
+              <h3 class="card-percentage">90%</h3>
+              <p class="card-description">Fornecedores comprometidos com práticas éticas e sustentáveis.</p>
+            </div>
+            <!-- Card 3 -->
+            <div class="card">
+              <div class="icon-container">
+                <i class="fas fa-recycle"></i>
+              </div>
+              <h3 class="card-percentage">3x</h3>
+              <p class="card-description">Maior durabilidade em comparação a tecidos comuns.</p>
+            </div>
+          </div>
+        </div>
+    </section>
+    
+
+  
+
+   <!-- Processo Sustentável -->
+<section class="processo-sustentavel">
+    <div class="processo-container">
+      <h2 class="processo-title">O Processo Sustentável</h2>
+      <div class="etapas">
+        <!-- Etapa 1 -->
+        <div class="etapa">
+          <div class="etapa-icon">
+            <i class="fas fa-seedling"></i>
+          </div>
+          <h3 class="etapa-title">Cultivo Ético</h3>
+          <p class="etapa-description">
+            Trabalhamos com pequenos agricultores que seguem práticas responsáveis e éticas para garantir o mínimo impacto ambiental.
+          </p>
+        </div>
+        <!-- Etapa 2 -->
+        <div class="etapa">
+          <div class="etapa-icon">
+            <i class="fas fa-industry"></i>
+          </div>
+          <h3 class="etapa-title">Produção Sustentável</h3>
+          <p class="etapa-description">
+            Processos que utilizam menos água e energia, promovendo uma cadeia de produção mais limpa e sustentável.
+          </p>
+        </div>
+        <!-- Etapa 3 -->
+        <div class="etapa">
+          <div class="etapa-icon">
+            <i class="fas fa-tshirt"></i>
+          </div>
+          <h3 class="etapa-title">Produto Final</h3>
+          <p class="etapa-description">
+            Roupas premium feitas para durar, reduzindo o consumo excessivo e promovendo um estilo de vida mais consciente.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+  <section class="call-to-action">
+    <!-- Vídeo de Fundo -->
+    <video class="cta-video" src="/videos/walking_florest.mp4" autoplay muted loop></video>
+  
+    <!-- Conteúdo da Call to Action -->
+    <div class="cta-content">
+      <h2 class="cta-title">Vista o Futuro</h2>
+      <p class="cta-description">
+        Escolha o algodão Pima e faça parte de um mundo mais sustentável. Juntos, podemos construir um futuro melhor para o nosso planeta.
+      </p>
+      <a href="/vitrine/catalogo" class="cta-button">Ver Produtos</a>
+    </div>
+  </section>
+  
+  
+
+  <!-- Footer -->
+  <footer>
+    <%- include("partials/footer") %>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/sustentabilidade.js"></script>
+</body>
+</html>

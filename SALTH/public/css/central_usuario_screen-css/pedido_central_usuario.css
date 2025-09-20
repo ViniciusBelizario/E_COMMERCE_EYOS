@@ -1,0 +1,180 @@
+/* ============================
+   Estilo da Página de Pedidos
+============================ */
+#orders {
+    padding: 30px;
+    background: linear-gradient(135deg, #ffffff, #f9fafb); /* Fundo suave */
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  /* Título da Página */
+  #orders h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 20px;
+  }
+  
+  /* Lista de Pedidos */
+  .order-list {
+    list-style: none; /* Remove marcadores */
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Espaçamento entre os pedidos */
+  }
+  
+  /* Estilo de Cada Pedido */
+  .order-item {
+    background: #f3f4f6; /* Fundo cinza claro */
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .order-item:hover {
+    transform: translateY(-5px); /* Efeito flutuar */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Sombra mais forte no hover */
+  }
+  
+  /* Informações do Pedido */
+  .order-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .order-info p {
+    margin: 0;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .order-info p strong {
+    color: #007BFF; /* Azul moderno */
+  }
+  
+  /* Status do Pedido */
+  .order-status {
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: inline-block;
+  }
+  
+  .order-status.entregue {
+    background: #d1f5d3; /* Verde claro */
+    color: #237804; /* Verde escuro */
+  }
+  
+  .order-status.transporte {
+    background: #ffecd1; /* Amarelo claro */
+    color: #d48806; /* Amarelo escuro */
+  }
+  
+  .order-status.pendente {
+    background: #ffd6d6; /* Vermelho claro */
+    color: #a8071a; /* Vermelho escuro */
+  }
+  
+  /* Botão de Detalhes */
+  .btn-details {
+    padding: 10px 15px;
+    background: #007BFF; /* Azul moderno */
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  
+  .btn-details:hover {
+    background: #0056b3; /* Azul mais escuro no hover */
+    transform: scale(1.05);
+  }
+  
+  /* ============================
+     Animação de Entrada
+  ============================ */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* ============================
+     Responsividade
+  ============================ */
+  @media (max-width: 768px) {
+    .order-item {
+      flex-direction: column; /* Alinha os itens verticalmente */
+      gap: 10px;
+      text-align: center;
+    }
+  
+    .btn-details {
+      width: 100%; /* Botão ocupa toda a largura */
+    }
+  }
+  /* ============================
+   Estilo do Modal de Entrega
+============================ */
+#modal-entrega {
+    display: none; /* Oculto por padrão */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro transparente */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  #modal-entrega .modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 600px;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  #modal-entrega .modal-content h2 {
+    margin-top: 0;
+    font-size: 1.8rem;
+    color: #1e293b;
+  }
+  
+  #modal-entrega .close-modal-entrega {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5rem;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  #modal-entrega .close-modal-entrega:hover {
+    color: #007BFF;
+  }
+  

@@ -1,0 +1,131 @@
+/* ============================
+   NAVBAR GERAL
+   ============================ */
+   .navbar {
+    font-family: 'Playfair Display', serif;
+    position: sticky; /* Navbar fixa no topo ao rolar a página */
+    margin-top: 0px;
+    z-index: 999; /* Garante que a navbar fica acima de outros elementos */
+    background-color: #000000; /* Inicialmente sólida */
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra inicial */
+  }
+  
+  .navbar.transparent {
+    background-color: transparent; /* Navbar transparente ao passar pelo carrossel */
+    box-shadow: none; /* Remove a sombra */
+  }
+  
+  .navbar:hover {
+    background-color: rgba(0, 0, 0, 0.8); /* Preto semi-transparente ao passar o mouse */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adiciona sombra */
+  }
+  
+  /* ============================
+     CONTAINER E LOGO
+     ============================ */
+  .navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+  }
+
+  .navbar-logo {
+    margin-right: auto;
+    padding-left: 0px; /* Logo totalmente à esquerda */
+  }
+  
+  .logo-image {
+    height: 50px; /* Altura maior para destacar a logo */
+    width: auto; /* Ajusta proporcionalmente */
+    object-fit: contain; /* Evita distorção */
+  }
+  
+  /* ============================
+     MENU DE NAVEGAÇÃO
+     ============================ */
+  .navbar-menu {
+    list-style: none;
+    display: flex;
+    margin: 0 auto; /* Centraliza o menu */
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+  }
+  
+  .navbar-menu li {
+    margin: 0 15px;
+    position: relative; /* Necessário para o dropdown */
+  }
+  
+  .navbar-menu a {
+    text-decoration: none;
+    color: #ffffff; /* Branco */
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 5px 10px;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    border-radius: 4px; /* Bordas arredondadas para links */
+  }
+  
+  .navbar-menu a:hover {
+    color: #aaaaaa; /* Cinza claro ao passar o mouse */
+    background-color: #222222; /* Fundo cinza escuro */
+  }
+  
+  /* ============================
+     ÍCONES E BARRA DE PESQUISA
+     ============================ */
+  .navbar-icons {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Move os ícones para a direita */
+  }
+  
+  .navbar-icons i {
+    color: #ffffff;
+    font-size: 1.8rem;
+    margin-left: 15px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar-icons i:hover {
+    color: #aaaaaa; /* Cinza claro */
+  }
+  
+  .navbar-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-icon {
+    font-size: 1.5rem; /* Tamanho da lupa */
+    color: #ffffff;
+    cursor: pointer;
+  }
+  
+  .search-input {
+    position: absolute;
+    right: 0;
+    width: 0; /* Inicialmente oculto */
+    opacity: 0; /* Invisível até ser ativado */
+    transition: all 0.3s ease;
+    background-color: #000000; /* Fundo preto */
+    color: #ffffff; /* Texto branco */
+    border: 1px solid #555555; /* Borda cinza */
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 1rem;
+    z-index: -1; /* Esconde atrás até ser ativado */
+  }
+  
+  .navbar-search.active .search-input {
+    width: 200px; /* Largura expandida */
+    opacity: 1; /* Torna visível */
+    z-index: 1; /* Traz para frente */
+  }

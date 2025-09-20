@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salth Navbar</title>
+
+  <!-- Importação de Estilos -->
+  <link rel="stylesheet" href="/css/navbar/navbar.css">
+  <link rel="stylesheet" href="/css/navbar/navbar2.css">
+  <link rel="stylesheet" href="/css/navbar/carrinho.css">
+  <link rel="stylesheet" href="/css/navbar/navbar_responsiva.css">
+
+  <!-- FontAwesome para Ícones -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  
+  <!-- Fonte Personalizada -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      
+      <!-- Ícone do menu hambúrguer -->
+      <div class="hamburger" id="hamburger">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+
+      <!-- Logo -->
+      <div class="navbar-logo">
+        <a href="/">
+          <img src="/images/logo.png" alt="Salth Logo" class="logo-image">
+        </a>
+      </div>
+
+      <!-- Menu de Navegação -->
+      <ul class="navbar-menu" id="navbar-menu">
+        <li><a href="/vitrine/sale">Promoção</a></li>
+        <li><a href="/vitrine/pima">Pima</a></li>
+        <li><a href="/vitrine/tshirts">T-Shirt</a></li>
+        <li><a href="/vitrine/nova-colecao">Nova Coleção</a></li>
+        <li><a href="/vitrine/kits">Kits</a></li>
+      </ul>
+
+      <!-- Ícones de Usuário, Lupa e Carrinho -->
+      <div class="navbar-icons">
+        <!-- Ícone da lupa -->
+        <i class="fas fa-magnifying-glass search-icon" id="search-icon"></i>
+
+        <!-- Ícone de usuário -->
+        <a href="/user_screen"><i class="fas fa-user"></i></a>
+
+        <!-- Ícone do carrinho -->
+        <div class="cart-container" onclick="abrirCarrinho()">
+          <i id="cart-icon" class="fas fa-shopping-bag cart-icon"></i>
+          <span id="cart-count" class="cart-count">0</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Carrinho Lateral -->
+  <div id="cart-modal" class="cart-modal">
+    <div class="cart-header">
+      <h3>Meu Carrinho (<span id="cart-count-modal">0</span>)</h3>
+      <button id="close-cart" class="close-cart">&times;</button>
+    </div>
+
+    <div class="cart-content">
+      <div id="empty-cart" class="empty-cart">
+        <p>Sacola Vazia</p>
+      </div>
+      <div id="cart-items" class="cart-items"></div>
+    </div>
+
+    <div class="cart-footer">
+      <p class="cart-total">
+        Subtotal: <span id="cart-total-value">R$ 0,00</span>
+      </p>
+      <button class="continue-shopping" onclick="fecharCarrinho()">Continuar Comprando</button>
+      <button class="checkout" onclick="finalizarCompra()">Finalizar Compra</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/navbar.js"></script>
+  <script src="/js/carrinho.js"></script>
+
+</body>
+</html>

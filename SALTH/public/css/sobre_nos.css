@@ -1,0 +1,241 @@
+/* Estilo Geral */
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    background: linear-gradient(135deg, #f7f7f7, #e0e0e0); /* Fundo prateado claro */
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Cabeçalhos */
+h1, h2, h3 {
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 3.2rem;
+    color: #1a1a1a; /* Black Piano */
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 2.6rem;
+    color: #292929; /* Prateado Escuro */
+}
+
+h3 {
+    font-size: 2rem;
+    color: #333;
+}
+
+/* Parágrafos */
+p {
+    color: #555;
+    margin-bottom: 1.5rem;
+}
+
+/* Container Geral */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Seções */
+section {
+    padding: 4rem 2rem;
+    margin-bottom: 3rem;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+section:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Linha do Tempo */
+.timeline {
+    position: relative;
+    border-left: 4px solid #333;
+    padding: 2rem 0;
+    margin: 2rem 0;
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.timeline-item h3 {
+    font-size: 2rem;
+    color: #292929;
+}
+
+.timeline-item p {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.8;
+}
+
+.timeline-item:before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    background: #1a1a1a; /* Black Piano */
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Missão e Visão */
+.mv-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.mv-item {
+    flex: 1;
+    min-width: 300px;
+    padding: 2rem;
+    background: #eaeaea; /* Prateado Claro */
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mv-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.mv-item h3 {
+    color: #1a1a1a;
+}
+
+.mv-item p {
+    color: #333;
+}
+
+/* Equipe */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.team-member {
+    background: #f7f7f7; /* Prateado Claro */
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-member:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.team-member img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.team-member h3 {
+    font-size: 1.8rem;
+    color: #292929;
+    margin-bottom: 0.5rem;
+}
+
+.team-member p {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+/* Call-to-Action */
+.cta-section {
+    background: linear-gradient(135deg, #1a1a1a, #333); /* Black Piano */
+    color: #f1f1f1;
+}
+
+.cta-section h2 {
+    font-size: 2.8rem;
+    color: #fff;
+}
+
+.cta-section p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    color: #fff;
+    background: #292929; /* Prateado Escuro */
+    border-radius: 5px;
+    transition: background 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
+}
+
+.cta-button:hover {
+    background: #1a1a1a; /* Black Piano */
+    transform: scale(1.05);
+}
+
+/* Animações */
+.hidden {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .timeline {
+        border-left: none;
+        margin: 3rem 0;
+    }
+
+    .timeline-item {
+        padding-left: 0;
+    }
+
+    .mv-content {
+        flex-direction: column;
+    }
+
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cta-button {
+        padding: 0.8rem 1.5rem;
+    }
+}

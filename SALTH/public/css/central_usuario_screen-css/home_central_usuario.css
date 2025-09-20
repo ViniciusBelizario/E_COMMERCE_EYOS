@@ -1,0 +1,168 @@
+/* ============================
+   Estilo Geral da Central do Usuário
+============================ */
+.user-dashboard {
+    display: flex;
+    min-height: 100vh;
+    background: #f3f4f6; /* Fundo suave */
+    overflow: hidden; /* Evitar scroll lateral */
+    padding: 20px;
+    gap: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    .user-dashboard {
+      flex-direction: column; /* Ajusta o layout em telas menores */
+      gap: 10px;
+    }
+  
+    .sidebar {
+      width: 100%;
+      border-radius: 10px;
+    }
+  
+    .dashboard-content {
+      padding: 20px;
+    }
+  }
+  
+  /* ============================
+     Estilo da Página Inicial (Home)
+  ============================ */
+  .dashboard-content {
+    padding: 30px;
+    background: linear-gradient(135deg, #ffffff, #f9fafb); /* Fundo claro e suave */
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Sombreamento leve */
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .dashboard-content h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 10px;
+  }
+  
+  .dashboard-content h1 span {
+    color: #007BFF; /* Destaque em azul */
+  }
+  
+  .dashboard-content p {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 30px;
+  }
+  
+  /* ============================
+     Estilo para Cards do Resumo
+  ============================ */
+  .account-summary {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  
+  .summary-card {
+    flex: 1 1 calc(33.333% - 20px); /* Distribuição uniforme */
+    background: linear-gradient(135deg, #f3f4f6, #e5e7eb); /* Fundo claro e tecnológico */
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Sombra nos cards */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .summary-card:hover {
+    transform: translateY(-5px); /* Animação de flutuar */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Sombra mais forte no hover */
+  }
+  
+  .summary-card i {
+    font-size: 2.5rem;
+    color: #007BFF; /* Azul moderno */
+    margin-bottom: 10px;
+  }
+  
+  .summary-card h3 {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #1e293b;
+  }
+  
+  .summary-card p {
+    font-size: 1rem;
+    color: #6b7280;
+  }
+  
+  .btn-view {
+    display: inline-block;
+    padding: 10px 15px;
+    background: #007BFF;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  
+  .btn-view:hover {
+    background: #0056b3; /* Azul mais escuro no hover */
+    transform: scale(1.05);
+  }
+  
+  /* ============================
+     Controle de Visibilidade das Seções
+  ============================ */
+  .dashboard-content {
+    display: none; /* Esconde todas as seções */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+  .dashboard-content.active {
+    display: block; /* Exibe a seção ativa */
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* ============================
+     Animações Gerais
+  ============================ */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* ============================
+     Responsividade
+  ============================ */
+  @media (max-width: 768px) {
+    .account-summary {
+      flex-direction: column; /* Cards empilhados */
+      gap: 15px;
+    }
+  
+    .summary-card {
+      flex: 1 1 100%; /* Cards ocupam largura total */
+    }
+  
+    .dashboard-content h1 {
+      font-size: 2rem;
+    }
+  
+    .dashboard-content p {
+      font-size: 1rem;
+    }
+  }
+  

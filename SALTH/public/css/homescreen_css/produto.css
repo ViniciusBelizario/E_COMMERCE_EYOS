@@ -1,0 +1,187 @@
+/* Seção geral */
+#product-slider {
+  padding: 2rem 1rem;
+  background-color: #f8f8f8;
+  text-align: center;
+}
+
+.product-slider-header {
+  margin-bottom: 2rem;
+}
+
+.product-slider-title {
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #333;
+  border-bottom: 2px solid #000;
+  display: inline-block;
+  padding-bottom: 0.5rem;
+}
+
+/* Carrossel */
+.product-slider-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.product-carousel-wrapper {
+  overflow: hidden;
+  width: 90%; /* Ajustado para melhor responsividade */
+  margin: auto;
+}
+
+.product-carousel-track {
+  display: flex;
+  gap: 1.5rem;
+  transition: transform 0.5s ease-in-out;
+}
+
+/* Cartões de Produtos */
+.product-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  overflow: hidden;
+  min-width: 250px;
+  max-width: 300px;
+  padding: 1rem;
+  flex: 0 0 auto;
+}
+
+/* Ajuste na imagem */
+.product-image-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.product-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+/* Botão de Compra Rápida - Melhorado */
+.quick-buy-btn {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.7); /* Agora com um fundo semi-transparente */
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.2s ease;
+}
+
+.product-image-wrapper:hover .quick-buy-btn {
+  opacity: 1;
+  transform: translateX(-50%) scale(1.1); /* Efeito leve ao aparecer */
+}
+
+/* Informações do Produto */
+.product-info {
+  padding: 0.5rem;
+}
+
+.product-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.product-description {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.product-price {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #999;
+  margin-right: 0.5rem;
+}
+
+.discount-price {
+  font-weight: bold;
+  color: #d9534f;
+}
+
+/* Ajuste para os botões de navegação */
+.product-slider-btn {
+  background-color: #fff;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  color: #333;
+  cursor: pointer;
+  font-size: 1.5rem;
+  height: 3rem;
+  width: 3rem;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.product-slider-btn:hover {
+  background-color: #ddd;
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* Melhor posicionamento */
+.product-prev-btn {
+  left: 10px;
+}
+
+.product-next-btn {
+  right: 10px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .product-carousel-track {
+      gap: 1rem;
+  }
+
+  .product-card {
+      min-width: 200px;
+      max-width: 250px;
+      padding: 0.8rem;
+  }
+
+  .product-slider-btn {
+      height: 2.5rem;
+      width: 2.5rem;
+      font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-carousel-wrapper {
+      width: 100%;
+  }
+
+  .product-card {
+      min-width: 180px;
+      max-width: 220px;
+  }
+}

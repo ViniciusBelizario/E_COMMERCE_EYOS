@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= produto.nome %> | SALTH</title>
+  <link rel="icon" href="/images/logo_preta.png" type="image/png" />
+
+  <!-- Meta Tags -->
+  <meta name="description" content="<%= produto.nome %> - Disponível na SALTH com preço especial.">
+  <meta name="keywords" content="<%= produto.nome %>, moda masculina, descontos, qualidade, SALTH">
+  <meta name="author" content="SALTH">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/produto_css/produto.css">
+  <style>
+    /* Estilos para seleção de cor */
+    .color-circle {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      margin: 5px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+    .color-circle.selected {
+      border: 2px solid #000;
+    }
+    .color-circle.unavailable {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+    /* Estilos para seleção de tamanho */
+    .size-options {
+      margin-top: 10px;
+    }
+    .size-options h3 {
+      margin-bottom: 8px;
+      font-size: 1em;
+    }
+    .size-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .size-option {
+      padding: 4px 8px;
+      font-size: 0.8em;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .size-option.selected {
+      border: 2px solid #000;
+    }
+    .size-option.unavailable {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <%- include("partials/navbar") %>
+
+  <div class="product-page">
+    <!-- Coluna Esquerda: Galeria -->
+    <aside class="product-gallery">
+      <div class="thumbnail-list">
+        <!-- Imagem principal -->
+        <img 
+          src="http://localhost:3001<%= produto.imagem_url %>" 
+          alt="<%= produto.nome %>" 
+          class="thumbnail active" 
+          onclick="trocarMidia(this, 'image')"
+        >
+        <!-- Imagens adicionais das variações -->
+        <% if (produto.ProdutoVariacaos && produto.ProdutoVariacaos.length > 0) { %>
+          <% produto.ProdutoVariacaos.forEach(function(variacao) { %>
+            <img 
+              src="http://localhost:3001<%= variacao.imagem_url %>" 
+              alt="<%= produto.nome %>" 
+              class="thumbnail"
+              onclick="trocarMidia(this, 'image')"
+            >
+          <% }); %>
+        <% } %>
+        <!-- Vídeo, se houver -->
+        <% if (produto.video_url) { %>
+          <video class="thumbnail" onclick="trocarMidia(this, 'video')">
+            <source src="http://localhost:3001<%= produto.video_url %>" type="video/mp4">
+            Seu navegador não suporta vídeos HTML5.
+          </video>
+        <% } %>
+      </div>
+
+      <div class="main-media-container">
+        <div class="zoom-container">
+          <img 
+            id="main-image" 
+            src="http://localhost:3001<%= produto.imagem_url %>" 
+            alt="<%= produto.nome %>" 
+            class="main-media"
+          >
+        </div>
+      </div>
+    </aside>
+
+    <!-- Coluna Direita: Detalhes do Produto -->
+    <main class="product-details">
+      <h1 class="product-title"><%= produto.nome %></h1>
+      
+      <!-- Descrição -->
+      <% if(produto.descricao) { %>
+        <p class="product-description"><%= produto.descricao %></p>
+      <% } %>
+      <!-- Exibição do Estoque (será atualizado conforme a variação selecionada) -->
+      <% if(produto.estoque !== undefined) { %>
+        <p id="estoqueDisplay" class="product-stock">Estoque: <%= produto.estoque %></p>
+      <% } %>
+
+      <!-- Seção de Preços -->
+      <div class="price-section">
+        <span class="original-price">R$ <%= (produto.preco * 1.2).toFixed(2) %></span>
+        <span class="discount-price">R$ <%= parseFloat(produto.preco).toFixed(2) %></span>
+      </div>
+
+      <!-- Seleção de Cor (cores únicas extraídas de ProdutoVariacaos) -->
+      <div class="color-options">
+        <h3>Selecione a cor:</h3>
+        <% 
+          let cores = [];
+          if(produto.ProdutoVariacaos) {
+            produto.ProdutoVariacaos.forEach(function(variacao) {
+              if (variacao.Cor && !cores.some(c => c.id === variacao.Cor.id)) {
+                cores.push(variacao.Cor);
+              }
+            });
+          }
+        %>
+        <% if (cores.length > 0) { %>
+          <% cores.forEach(function(cor) { %>
+            <span 
+              class="color-circle" 
+              data-cor="<%= cor.codigo_hex %>" 
+              style="background-color:<%= cor.codigo_hex %>;" 
+              onclick="selecionarCor('<%= cor.codigo_hex %>', this)"
+            ></span>
+          <% }); %>
+        <% } else { %>
+          <p>Sem opções de cor</p>
+        <% } %>
+      </div>
+
+      <!-- Seleção de Tamanho (tamanhos únicos extraídos de ProdutoVariacaos) -->
+      <div class="size-options">
+        <h3>Selecione o tamanho:</h3>
+        <div class="size-list">
+          <% 
+            let tamanhos = [];
+            if(produto.ProdutoVariacaos) {
+              produto.ProdutoVariacaos.forEach(function(variacao) {
+                if (variacao.Tamanho && !tamanhos.includes(variacao.Tamanho.nome)) {
+                  tamanhos.push(variacao.Tamanho.nome);
+                }
+              });
+            }
+          %>
+          <% if (tamanhos.length > 0) { %>
+            <% tamanhos.forEach(function(tamanho) { %>
+              <span 
+                class="size-option" 
+                onclick="selecionarTamanho('<%= tamanho %>', this)"
+              >
+                <%= tamanho %>
+              </span>
+            <% }); %>
+          <% } else { %>
+            <p>Nenhum tamanho cadastrado</p>
+          <% } %>
+        </div>
+      </div>
+
+      <!-- Quantidade -->
+      <div class="quantity-container">
+        <strong>Quantidade:</strong>
+        <div class="quantity-wrapper">
+          <button class="quantity-btn" onclick="ajustarQuantidade(-1)">-</button>
+          <input type="number" value="1" min="1" class="quantity-input">
+          <button class="quantity-btn" onclick="ajustarQuantidade(1)">+</button>
+        </div>
+      </div>
+
+      <!-- Formulário de Compra -->
+      <form id="buy-now-form" action="/pagamentos" method="POST">
+        <input type="hidden" name="produtoId" value="<%= produto.id %>">
+        <input type="hidden" name="nome" value="<%= produto.nome %>">
+        <input type="hidden" name="preco" value="<%= produto.preco %>">
+        <input type="hidden" name="imagem_url" value="<%= produto.imagem_url %>">
+        <input type="hidden" name="corSelecionada" id="corSelecionada">
+        <input type="hidden" name="tamanhoSelecionado" id="tamanhoSelecionado">
+        <input type="hidden" name="quantidade" id="quantidadeFinal" value="1">
+        <div class="action-buttons">
+          <button 
+            type="submit" 
+            class="buy-now"
+            onclick="prepararCompra(event)"
+            disabled
+          >
+            Comprar Agora
+          </button>
+          <button 
+            type="button" 
+            class="add-to-cart" 
+            onclick="adicionarCarrinho('<%= produto.id %>')"
+            disabled
+          >
+            Adicionar ao Carrinho
+          </button>
+        </div>
+      </form>
+
+    </main>
+  </div>
+
+  <%- include("partials/footer") %>
+
+  <!-- Scripts -->
+  <script src="/js/produto.js"></script>
+  <script>
+    // Exporta as variações para uso no script
+    const produtoVariacaos = <%- JSON.stringify(produto.ProdutoVariacaos) %>;
+    const overallEstoque = <%= produto.estoque %>;
+    let corSelecionada = null;
+    let tamanhoSelecionado = null;
+    
+    function selecionarCor(hex, elemento) {
+      corSelecionada = hex;
+      document.getElementById('corSelecionada').value = hex;
+      document.querySelectorAll('.color-circle').forEach(el => el.classList.remove('selected'));
+      elemento.classList.add('selected');
+      verificarSelecao();
+      atualizarTamanhosDisponiveis();
+    }
+    
+    function selecionarTamanho(tamanho, elemento) {
+      tamanhoSelecionado = tamanho;
+      document.getElementById('tamanhoSelecionado').value = tamanho;
+      document.querySelectorAll('.size-option').forEach(el => el.classList.remove('selected'));
+      elemento.classList.add('selected');
+      verificarSelecao();
+      atualizarCoresDisponiveis();
+    }
+    
+    function atualizarCoresDisponiveis() {
+      if (!tamanhoSelecionado) {
+        document.querySelectorAll('.color-circle').forEach(el => el.classList.remove('unavailable'));
+        return;
+      }
+      document.querySelectorAll('.color-circle').forEach(function(elem) {
+        const cor = elem.getAttribute('data-cor');
+        let available = produtoVariacaos.some(variacao => {
+          return variacao.Tamanho && variacao.Tamanho.nome === tamanhoSelecionado &&
+                 variacao.Cor && variacao.Cor.codigo_hex === cor;
+        });
+        if (available) {
+          elem.classList.remove('unavailable');
+        } else {
+          elem.classList.add('unavailable');
+        }
+      });
+    }
+    
+    function atualizarTamanhosDisponiveis() {
+      if (!corSelecionada) {
+        document.querySelectorAll('.size-option').forEach(el => el.classList.remove('unavailable'));
+        return;
+      }
+      document.querySelectorAll('.size-option').forEach(function(elem) {
+        const tamanho = elem.textContent.trim();
+        let available = produtoVariacaos.some(variacao => {
+          return variacao.Cor && variacao.Cor.codigo_hex === corSelecionada &&
+                 variacao.Tamanho && variacao.Tamanho.nome === tamanho;
+        });
+        if (available) {
+          elem.classList.remove('unavailable');
+        } else {
+          elem.classList.add('unavailable');
+        }
+      });
+    }
+    
+    function verificarSelecao() {
+      const btnBuyNow = document.querySelector('.buy-now');
+      const btnAddToCart = document.querySelector('.add-to-cart');
+      if (corSelecionada && tamanhoSelecionado) {
+        btnBuyNow.disabled = false;
+        btnAddToCart.disabled = false;
+      } else {
+        btnBuyNow.disabled = true;
+        btnAddToCart.disabled = true;
+      }
+      updateVariantStock();
+    }
+    
+    function updateVariantStock() {
+      const estoqueElem = document.getElementById("estoqueDisplay");
+      if (corSelecionada && tamanhoSelecionado) {
+        let variant = produtoVariacaos.find(variacao => {
+          return variacao.Cor && variacao.Cor.codigo_hex === corSelecionada &&
+                 variacao.Tamanho && variacao.Tamanho.nome === tamanhoSelecionado;
+        });
+        if (variant) {
+          estoqueElem.textContent = "Estoque: " + variant.quantidade;
+        } else {
+          estoqueElem.textContent = "Estoque: 0";
+        }
+      } else {
+        estoqueElem.textContent = "Estoque: " + overallEstoque;
+      }
+    }
+    
+    function ajustarQuantidade(delta) {
+      const quantityInput = document.querySelector('.quantity-input');
+      let valor = parseInt(quantityInput.value) || 1;
+      valor += delta;
+      if (valor < 1) valor = 1;
+      quantityInput.value = valor;
+      document.getElementById('quantidadeFinal').value = valor;
+    }
+    
+    function prepararCompra(event) {
+      // Se não houver seleção completa, impede o envio e exibe alerta.
+      if (!(corSelecionada && tamanhoSelecionado)) {
+        event.preventDefault();
+        alert('Selecione a cor e o tamanho para prosseguir.');
+      }
+      // Caso contrário, o formulário é submetido normalmente.
+    }
+    
+    function adicionarCarrinho(produtoId) {
+      // Recolhe os dados do formulário
+      const data = {
+        produtoId: produtoId,
+        nome: document.querySelector('input[name="nome"]').value,
+        preco: document.querySelector('input[name="preco"]').value,
+        imagem_url: document.querySelector('input[name="imagem_url"]').value,
+        cor: document.getElementById('corSelecionada').value,
+        tamanho: document.getElementById('tamanhoSelecionado').value,
+        quantidade: document.getElementById('quantidadeFinal').value
+      };
+      
+      // Faz uma requisição POST para adicionar ao carrinho (endpoint de exemplo)
+      fetch('/carrinho/adicionar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => {
+        if (response.ok) {
+          // Exemplo: redireciona para a página do carrinho
+          window.location.href = '/carrinho';
+        } else {
+          alert('Falha ao adicionar ao carrinho.');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        alert('Erro ao adicionar ao carrinho.');
+      });
+    }
+    
+    function trocarMidia(elemento, tipo) {
+      if (tipo === 'image') {
+        document.getElementById('main-image').src = elemento.src;
+      }
+      // Se necessário, adicione lógica para vídeos.
+    }
+  </script>
+</body>
+</html>

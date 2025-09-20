@@ -1,0 +1,112 @@
+/* Configuração Geral */
+.factory-section {
+    padding: 5rem 2rem;
+    background: linear-gradient(135deg, #e4e4e4, #c4c4c4); /* Fundo prateado claro */
+    text-align: center;
+    overflow: hidden;
+}
+
+.factory-section h2 {
+    font-size: 2.8rem;
+    margin-bottom: 3rem;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Container do Slider */
+.slider-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden; /* Oculta elementos fora da área visível */
+    position: relative;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Slider */
+.slider {
+    display: flex;
+    transition: transform 0.4s ease-in-out; /* Transição suave */
+    gap: 0; /* Remove gaps entre os slides */
+    width: 100%; /* Garante que o slider ocupe todo o container */
+}
+
+/* Slide */
+.slide {
+    flex: 0 0 100%; /* Cada slide ocupa exatamente 100% da largura do container */
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    background: #fff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/* Placeholder da Imagem */
+.slide img {
+    width: 50%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+    background: #e0e0e0; /* Fundo neutro enquanto a imagem carrega */
+    display: block;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.slide img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Conteúdo no Slide */
+.slide-content {
+    flex: 1;
+    text-align: left;
+}
+
+.slide-content h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    font-weight: 600;
+}
+
+.slide-content p {
+    font-size: 1.2rem;
+    font-family: 'Roboto', sans-serif;
+    color: #666;
+    line-height: 1.8;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .slide {
+        flex-direction: column;
+        padding: 1.5rem;
+    }
+
+    .slide img {
+        width: 100%;
+    }
+
+    .slide-content {
+        text-align: center;
+        margin-top: 1.5rem;
+    }
+
+    .slide-content h3 {
+        font-size: 1.8rem;
+    }
+
+    .slide-content p {
+        font-size: 1rem;
+    }
+}

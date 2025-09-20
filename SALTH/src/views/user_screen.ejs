@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Salth</title>
+  <link rel="stylesheet" href="/css/user_screen.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="icon" href="/images/logo_preta.png" type="image/png">
+</head>
+<body>
+
+  <%- include("partials/navbar") %>
+
+  <!-- Container Principal -->
+  <main class="login-screen">
+    <div class="login-box">
+      <!-- Logo -->
+      <div class="login-logo">
+        <img src="/images/logo_preta.png" alt="Salth Logo">
+      </div>
+
+      <!-- Subtítulo -->
+      <p class="login-subtitle">Faça login para continuar explorando</p>
+
+      <!-- Formulário de Login -->
+      <form id="login-form">
+        <div class="input-group">
+          <input type="email" id="loginEmail" name="email" placeholder="E-mail" required>
+        </div>
+        <div class="input-group">
+          <input type="password" id="loginPassword" name="senha" placeholder="Senha" required>
+        </div>
+        <button type="submit" class="btn-login">Entrar</button>
+        <p id="login-message" class="message"></p>
+      </form>
+
+      <!-- Divisor -->
+      <p class="divider">ou</p>
+
+      <!-- Botões de Login Social -->
+      <div class="social-login">
+        <button class="btn-social btn-facebook">
+          <i class="fab fa-facebook-f"></i>
+        </button>
+        <button class="btn-social btn-google">
+          <i class="fab fa-google"></i>
+        </button>
+      </div>
+
+      <!-- Links Auxiliares -->
+      <div class="login-links">
+        <button id="registerBtn" class="btn-register">Criar uma conta</button>
+        <button id="forgotPasswordBtn" class="btn-forgot-password">Esqueceu a senha?</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal de Registro -->
+  <div id="modal-register" class="modal-register" style="display: none;">
+    <div class="modal-content">
+      <span class="close-modal-register">&times;</span>
+      <h2>Registrar</h2>
+      <form id="register-form">
+        <div class="input-group">
+          <input type="text" id="fullName" name="nome" placeholder="Nome Completo" required>
+        </div>
+        <div class="input-group">
+          <input type="email" id="emailRegister" name="email" placeholder="E-mail" required>
+        </div>
+        <div class="input-group">
+          <input type="password" id="passwordRegister" name="senha" placeholder="Senha" required>
+        </div>
+        <div class="input-group">
+          <input type="tel" id="phone" name="telefone" placeholder="Telefone" required>
+        </div>
+        <button type="submit" class="btn-register-modal">Criar Conta</button>
+      </form>
+      <p id="register-message" class="message"></p>
+    </div>
+  </div>
+
+  <!-- Modal de Recuperação de Senha -->
+  <div id="modal-forgot-password" class="modal-forgot-password" style="display: none;">
+    <div class="modal-content">
+      <span class="close-modal-forgot">&times;</span>
+      <h2>Recuperar Senha</h2>
+      <p>Digite seu e-mail para receber um link de redefinição de senha.</p>
+      <form action="/user/forgot-password" method="POST" class="forgot-password-form">
+        <div class="input-group">
+          <input type="email" id="emailForgot" name="email" placeholder="E-mail" required>
+        </div>
+        <button type="submit" class="btn-forgot-modal">Enviar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <%- include("partials/footer") %>
+
+  <!-- Scripts -->
+  <script src="/src/api/register.js"></script>
+  <script src="/src/api/login.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      console.log("Scripts carregados!"); // Adiciona log para depuração
+
+      // ======================
+      // Modal de Registro
+      // ======================
+      const registerBtn = document.getElementById("registerBtn");
+      const registerModal = document.getElementById("modal-register");
+      const closeModalRegister = document.querySelector(".close-modal-register");
+
+      if (registerBtn && registerModal) {
+        registerBtn.addEventListener("click", () => {
+          registerModal.style.display = "flex";
+        });
+
+        if (closeModalRegister) {
+          closeModalRegister.addEventListener("click", () => {
+            registerModal.style.display = "none";
+          });
+
+          window.addEventListener("click", (event) => {
+            if (event.target === registerModal) {
+              registerModal.style.display = "none";
+            }
+          });
+        }
+      }
+
+      // ======================
+      // Modal de Recuperação de Senha
+      // ======================
+      const forgotPasswordBtn = document.getElementById("forgotPasswordBtn");
+      const forgotPasswordModal = document.getElementById("modal-forgot-password");
+      const closeModalForgot = document.querySelector(".close-modal-forgot");
+
+      if (forgotPasswordBtn && forgotPasswordModal) {
+        forgotPasswordBtn.addEventListener("click", () => {
+          forgotPasswordModal.style.display = "flex";
+        });
+
+        if (closeModalForgot) {
+          closeModalForgot.addEventListener("click", () => {
+            forgotPasswordModal.style.display = "none";
+          });
+
+          window.addEventListener("click", (event) => {
+            if (event.target === forgotPasswordModal) {
+              forgotPasswordModal.style.display = "none";
+            }
+          });
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>

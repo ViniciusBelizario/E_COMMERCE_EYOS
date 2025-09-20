@@ -1,0 +1,74 @@
+/* Estilo da seção de vídeo */
+.video-section {
+    position: relative;
+    height: 100vh; /* Reduz a altura do vídeo para 80% da altura da tela */
+    overflow: hidden;
+}
+
+/* Estilo do vídeo */
+.video-container video {
+    width: 100%; /* Ocupa 100% da largura */
+    height: 100%; /* Ocupa 100% da altura */
+    object-fit: cover; /* Garante que o vídeo preencha o container */
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Overlay com texto */
+.video-overlay {
+    position: absolute;
+    top: 65%; /* Ajustado para ficar levemente acima do rodapé do vídeo */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 1; /* Garante que o texto fique sobre o vídeo */
+    opacity: 0; /* Inicialmente invisível */
+    animation: textLoop 10s linear infinite; /* Loop contínuo sincronizado com o vídeo */
+}
+
+/* Estilo do título */
+.video-overlay h1 {
+    font-size: 2.5rem; /* Tamanho equilibrado */
+    margin-bottom: 1rem;
+    color: #f4f4f4; /* Branco suave */
+    font-family: 'Poppins', sans-serif; /* Fonte estilosa e moderna */
+    font-weight: 600; /* Peso médio */
+    text-transform: uppercase; /* Deixa todas as letras maiúsculas */
+    letter-spacing: 1.5px; /* Espaçamento sutil entre as letras */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8); /* Sombra discreta */
+}
+
+/* Estilo do parágrafo */
+.video-overlay p {
+    font-size: 1.2rem; /* Ajustado para não competir com o título */
+    color: #ffffff; /* Branco neutro */
+    font-family: 'Roboto', sans-serif; /* Fonte simples e legível */
+    font-weight: 400; /* Peso normal */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* Sombra suave */
+    margin-top: 0.5rem;
+}
+
+/* Animação para o texto */
+@keyframes textLoop {
+    0%, 30% {
+        opacity: 0; /* Invisível até o 4º segundo */
+    }
+    40%, 80% {
+        opacity: 1; /* Visível do 4º ao 8º segundo */
+    }
+    90%, 100% {
+        opacity: 0; /* Invisível do 8º ao 10º segundo */
+    }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .video-overlay h1 {
+        font-size: 2rem; /* Menor em telas pequenas */
+    }
+
+    .video-overlay p {
+        font-size: 1rem;
+    }
+}

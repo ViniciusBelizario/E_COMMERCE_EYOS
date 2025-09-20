@@ -1,0 +1,54 @@
+/* ============================
+     ÍCONES E BARRA DE PESQUISA
+     ============================ */
+     .navbar-icons {
+      display: flex;
+      align-items: center;
+    }
+    
+    .navbar-icons i {
+      color: #ffffff;
+      font-size: 1.8rem;
+      margin-left: 15px;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    
+    .navbar-icons i:hover {
+      color: #aaaaaa; /* Cinza claro */
+    }
+    
+    .navbar-search {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    
+    .search-icon {
+      font-size: 1.5rem; /* Tamanho da lupa */
+      color: #ffffff;
+      cursor: pointer;
+    }
+    
+    .search-input {
+      position: absolute;
+      right: 0;
+      width: 0; /* Inicialmente oculto */
+      opacity: 0; /* Invisível até ser ativado */
+      transition: all 0.3s ease;
+      background-color: #000000; /* Fundo preto */
+      color: #ffffff; /* Texto branco */
+      border: 1px solid #555555; /* Borda cinza */
+      padding: 5px 10px;
+      border-radius: 3px;
+      font-size: 1rem;
+      z-index: -1; /* Esconde atrás até ser ativado */
+    }
+    
+    .navbar-search.active .search-input {
+      width: 200px; /* Largura expandida */
+      opacity: 1; /* Torna visível */
+      z-index: 1; /* Traz para frente */
+    }
+    
+    

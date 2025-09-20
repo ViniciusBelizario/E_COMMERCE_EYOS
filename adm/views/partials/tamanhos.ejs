@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerenciar Tamanhos</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <main>
+    <h2>Gerenciar Tamanhos</h2>
+
+    <!-- Formulário para cadastrar um novo tamanho -->
+    <form id="tamanhoForm">
+      <label for="nome">Nome do Tamanho:</label>
+      <input type="text" id="nome" required>
+      <button type="submit">Cadastrar</button>
+    </form>
+
+    <!-- Tabela para exibir tamanhos cadastrados -->
+    <div class="table-container">
+      <h3>Tamanhos Cadastrados</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="tamanhoList"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <script>
+    // Carregar a lista de tamanhos ao entrar na página
+    async function carregarTamanhos() {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Usuário não autenticado! Faça login novamente.");
+        window.location.href = "/auth/login";
+        return;
+      }
+
+      try {
+        // Faz um GET em http://localhost:3001/tamanhos
+        const response = await fetch("http://localhost:3001/tamanhos", {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`Erro ao carregar tamanhos: ${response.status} - ${response.statusText}`);
+        }
+
+        const tamanhos = await response.json();
+        const tabela = document.getElementById("tamanhoList");
+        tabela.innerHTML = "";
+
+        tamanhos.forEach((tamanho) => {
+          tabela.innerHTML += `
+            <tr>
+              <td>${tamanho.id}</td>
+              <td>${tamanho.nome}</td>
+              <td>
+                <button class="delete-btn" onclick="deletarTamanho(${tamanho.id})">Excluir</button>
+              </td>
+            </tr>
+          `;
+        });
+      } catch (error) {
+        console.error("Erro ao carregar tamanhos:", error);
+        alert("Não foi possível carregar os tamanhos.");
+      }
+    }
+
+    // Excluir um tamanho
+    async function deletarTamanho(id) {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Usuário não autenticado! Faça login novamente.");
+        window.location.href = "/auth/login";
+        return;
+      }
+
+      try {
+        // Faz um DELETE em http://localhost:3001/tamanhos/:id
+        const response = await fetch(`http://localhost:3001/tamanhos/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`Erro ao excluir tamanho: ${response.status} - ${response.statusText}`);
+        }
+
+        carregarTamanhos(); // Recarrega a lista após excluir
+      } catch (error) {
+        console.error("Erro ao excluir tamanho:", error);
+        alert("Não foi possível excluir o tamanho.");
+      }
+    }
+
+    // Captura o evento de submit do formulário para criar um novo tamanho
+    document.getElementById("tamanhoForm").addEventListener("submit", async (event) => {
+      event.preventDefault(); // Evita recarregar a página
+
+      const nome = document.getElementById("nome").value.trim();
+      if (!nome) {
+        alert("O campo 'Nome do Tamanho' é obrigatório!");
+        return;
+      }
+
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Usuário não autenticado! Faça login novamente.");
+        window.location.href = "/auth/login";
+        return;
+      }
+
+      try {
+        // Faz um POST em http://localhost:3001/tamanhos
+        const response = await fetch("http://localhost:3001/tamanhos", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ nome })
+        });
+
+        if (!response.ok) {
+          // Tenta pegar a resposta de erro em JSON
+          let errorMsg = `Erro ao cadastrar tamanho: ${response.status} - ${response.statusText}`;
+          try {
+            const errorData = await response.json();
+            if (errorData.error) {
+              errorMsg = errorData.error;
+            }
+          } catch (e) {
+            // Se não conseguir ler JSON, ignora
+          }
+
+          throw new Error(errorMsg);
+        }
+
+        document.getElementById("nome").value = "";
+        carregarTamanhos();
+      } catch (error) {
+        console.error("Erro ao cadastrar tamanho:", error);
+        alert(error.message);
+      }
+    });
+
+    // Chama a função para carregar tamanhos ao carregar a página
+    carregarTamanhos();
+  </script>
+</body>
+</html>

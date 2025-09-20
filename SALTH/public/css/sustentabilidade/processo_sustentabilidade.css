@@ -1,0 +1,99 @@
+/* ============================
+   Processo Sustentável
+============================ */
+.processo-sustentavel {
+    padding: 60px 10%; /* Espaçamento interno */
+    background-color: #fff; /* Fundo branco */
+    text-align: center; /* Centraliza o texto */
+  }
+  
+  .processo-container {
+    max-width: 1200px;
+    margin: 0 auto; /* Centraliza o conteúdo */
+  }
+  
+  .processo-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #222; /* Texto escuro para contraste */
+    margin-bottom: 40px;
+  }
+  
+  .etapas {
+    display: flex;
+    justify-content: center; /* Centraliza as etapas */
+    gap: 30px; /* Espaço entre as etapas */
+    flex-wrap: wrap; /* Permite quebrar linha em telas menores */
+  }
+  
+  .etapa {
+    background-color: #f9f9f9; /* Fundo leve */
+    border-radius: 12px;
+    padding: 20px 15px;
+    width: 300px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    text-align: center; /* Centraliza os textos */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .etapa:hover {
+    transform: translateY(-10px); /* Efeito de elevação no hover */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Sombra mais intensa */
+  }
+  
+  .etapa-icon {
+    font-size: 3rem;
+    color: #007BFF; /* Azul vibrante */
+    margin-bottom: 20px;
+  }
+  
+  .etapa-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333; /* Texto escuro */
+    margin-bottom: 10px;
+  }
+  
+  .etapa-description {
+    font-size: 1.1rem;
+    color: #555; /* Cinza suave */
+    line-height: 1.6;
+  }
+  
+  /* ============================
+     Responsividade
+  ============================ */
+  
+  /* Ajustes para tablets */
+  @media (max-width: 768px) {
+    .etapas {
+      gap: 20px; /* Reduz o espaço entre os cards */
+    }
+  
+    .etapa {
+      width: 90%; /* Cards ocupam quase toda a largura */
+      margin: 0 auto; /* Centraliza os cards */
+    }
+  }
+  
+  /* Ajustes para smartphones */
+  @media (max-width: 480px) {
+    .processo-title {
+      font-size: 2rem; /* Título menor */
+      margin-bottom: 30px;
+    }
+  
+    .etapa-title {
+      font-size: 1.3rem; /* Reduz o tamanho do título */
+    }
+  
+    .etapa-description {
+      font-size: 1rem; /* Texto menor */
+      line-height: 1.5;
+    }
+  
+    .etapa-icon {
+      font-size: 2.5rem; /* Ícone menor */
+    }
+  }
+  

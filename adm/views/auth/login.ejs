@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Painel Administrativo</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Login Administrativo</h1>
+    </header>
+
+    <main>
+        <form id="loginForm">
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Entrar</button>
+        </form>
+
+        <p id="errorMessage" style="color: red; display: none;">Usuário ou senha inválidos.</p>
+    </main>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+    
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+    
+            try {
+                const response = await fetch("http://localhost:3001/auth/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, senha: password })
+                });
+    
+                const data = await response.json();
+    
+                if (response.ok) {
+                    localStorage.setItem("token", data.token);
+                    document.cookie = `token=${data.token}; path=/;`;
+                    window.location.href = "/";  // 🔹 Redireciona para o dashboard
+                } else {
+                    document.getElementById("errorMessage").innerText = data.error;
+                }
+            } catch (error) {
+                console.error("Erro no login:", error);
+                document.getElementById("errorMessage").innerText = "Erro ao conectar com o servidor.";
+            }
+        });
+    </script>
+</body>
+</html>

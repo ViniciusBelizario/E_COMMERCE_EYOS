@@ -1,0 +1,16 @@
+/* ============================
+   Banner Principal
+============================ */
+.banner {
+    width: 100%;
+    height: 400px; /* Altura reduzida para um visual mais equilibrado */
+    position: relative;
+    overflow: hidden;
+}
+
+.banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}

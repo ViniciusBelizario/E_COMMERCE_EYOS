@@ -1,0 +1,104 @@
+/* ============================
+   Sobre o Algodão Pima
+============================ */
+.sobre-pima {
+    background-color: #f9f9f9; /* Fundo claro */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margens externas */
+    overflow-x: hidden; /* Remove qualquer rolagem lateral */
+  }
+  
+  .sobre-pima-container {
+    display: flex; /* Alinha vídeo e texto lado a lado */
+    align-items: stretch; /* Ambos os lados ocupam toda a altura disponível */
+    justify-content: space-between; /* Espaço uniforme entre vídeo e texto */
+    gap: 0; /* Remove espaço entre os elementos */
+    width: 100%; /* Garante que o container ocupa toda a largura */
+    height: auto; /* Adapta à altura do conteúdo */
+  }
+  
+  /* Container do Vídeo */
+  .video-container {
+    flex: 1; /* O vídeo ocupa metade da largura */
+    overflow: hidden; /* Garante que o conteúdo do vídeo não transborde */
+  }
+  
+  .video {
+    width: 100%; /* O vídeo ocupa toda a largura do container */
+    height: 100%; /* O vídeo ocupa toda a altura do container */
+    object-fit: cover; /* Preenche o container sem distorções */
+    display: block; /* Remove espaços extras ao redor */
+  }
+  
+  /* Container do Texto */
+  .text-container {
+    flex: 1; /* O texto ocupa metade da largura */
+    padding: 60px; /* Espaçamento interno */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Alinha o texto verticalmente */
+    background-color: #fff; /* Fundo branco para destacar o texto */
+  }
+  
+  .sobre-pima-title {
+    font-size: 2.8rem; /* Tamanho do título */
+    font-weight: bold; /* Título em negrito */
+    margin-bottom: 20px; /* Espaçamento inferior */
+    color: #222; /* Texto escuro */
+    line-height: 1.2; /* Altura confortável */
+  }
+  
+  .sobre-pima-description {
+    font-size: 1.4rem; /* Tamanho do texto */
+    line-height: 1.8; /* Espaçamento confortável entre linhas */
+    color: #555; /* Cinza suave */
+    font-weight: 300; /* Peso do texto mais leve */
+  }
+  
+  /* ============================
+     Responsividade
+  ============================ */
+  
+  /* Ajustes para tablets */
+  @media (max-width: 1024px) {
+    .sobre-pima-container {
+      flex-direction: column; /* Alinha vídeo e texto verticalmente */
+    }
+  
+    .video-container {
+      height: 300px; /* Define uma altura fixa para o vídeo */
+    }
+  
+    .text-container {
+      padding: 40px; /* Reduz o padding */
+      text-align: center; /* Centraliza o texto */
+    }
+  
+    .sobre-pima-title {
+      font-size: 2.4rem; /* Reduz o tamanho do título */
+    }
+  
+    .sobre-pima-description {
+      font-size: 1.2rem; /* Reduz o tamanho do texto */
+    }
+  }
+  
+  /* Ajustes para smartphones */
+  @media (max-width: 768px) {
+    .video-container {
+      height: 200px; /* Reduz ainda mais a altura do vídeo */
+    }
+  
+    .text-container {
+      padding: 20px; /* Padding menor para telas pequenas */
+    }
+  
+    .sobre-pima-title {
+      font-size: 2rem; /* Título menor */
+    }
+  
+    .sobre-pima-description {
+      font-size: 1rem; /* Texto menor */
+    }
+  }
+  

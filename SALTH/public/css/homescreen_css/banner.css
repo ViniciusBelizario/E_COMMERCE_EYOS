@@ -1,0 +1,142 @@
+/* ============================
+   BANNER SALE (Imagem)
+   ============================ */
+   .banner {
+    width: 100%;          /* Ocupe toda a largura disponível */
+    margin: 0;
+    position: relative;   /* Necessário para posicionar o botão */
+    background-color: #f9f9f9; /* Fundo claro, opcional */
+  }
+  
+  .banner .banner-image {
+    width: 100%;    /* Faz a imagem ocupar toda a largura */
+    height: auto;   /* Mantém a proporção da imagem */
+    display: block; /* Remove espaçamento extra ao redor da imagem */
+  }
+  
+  /* Botão no Banner de Promoção */
+  .banner-button-container {
+    position: absolute;
+    bottom: 5%; 
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
+  
+  .banner-sale-button {
+    display: inline-block;
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ffffff;           /* Texto branco */
+    text-transform: uppercase;
+    text-decoration: none;
+    background: transparent;  /* Fundo transparente inicialmente */
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 30px;
+    transition: all 0.3s ease;
+  }
+  .banner-sale-button:hover {
+    background: #ff4500;      /* Fundo laranja vibrante */
+    color: #ffffff;
+    border-color: #ff4500;
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+  }
+  
+  /* ============================
+     BANNER GIF (Vídeo)
+     ============================ */
+  .gif-banner {
+    position: relative;
+    width: 100%;     /* O banner ocupa toda a largura da tela */
+    /* Remova a altura fixa para permitir ajuste automático */
+    overflow: hidden; 
+    margin: 50px 0; 
+    padding: 0;
+  }
+  
+  .gif-banner video {
+    width: 100%; 
+    height: auto;         /* Responsivo: altura se ajusta à largura */
+    object-fit: cover;    /* Cobre o container sem distorcer */
+    display: block;
+  }
+  
+  .banner-content {
+    position: absolute;
+    top: 90%;         /* Ajuste conforme a posição que deseja */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  
+  .btn-banner {
+    display: inline-block;
+    font-size: 22px;
+    padding: 15px 40px;
+    background: linear-gradient(145deg, #e0e5ec, #ffffff);
+    color: #333;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: bold;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2),
+                -10px -10px 20px rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease;
+  }
+  .btn-banner:hover {
+    background: linear-gradient(145deg, #ffffff, #e0e5ec);
+    color: #000;
+    transform: translateY(-5px);
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3),
+                -10px -10px 20px rgba(255, 255, 255, 0.8);
+  }
+  .btn-banner:active {
+    transform: translateY(2px);
+    box-shadow: inset 10px 10px 20px rgba(0, 0, 0, 0.3),
+                inset -10px -10px 20px rgba(255, 255, 255, 0.8);
+  }
+  
+  /* ============================
+     MEDIA QUERIES
+     ============================ */
+  /* Ajuste para telas menores */
+  @media (max-width: 768px) {
+    /* BANNER SALE: Ajustar texto ou botões */
+    .banner-sale-button {
+      font-size: 1rem;
+      padding: 10px 20px;
+    }
+  
+    /* BANNER GIF: Reduzir altura visual */
+    .gif-banner {
+      margin: 30px 0;
+    }
+    .banner-content {
+      top: 85%; /* Ajuste para não sobrepor o vídeo em telas menores */
+      transform: translate(-50%, -85%);
+    }
+    .btn-banner {
+      font-size: 1rem;
+      padding: 10px 25px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    /* Banner Sale */
+    .banner-sale-button {
+      font-size: 0.9rem;
+      padding: 8px 15px;
+    }
+  
+    /* Banner GIF */
+    .banner-content {
+      top: 80%;
+      transform: translate(-50%, -80%);
+    }
+    .btn-banner {
+      font-size: 0.9rem;
+      padding: 8px 15px;
+    }
+  }
+  

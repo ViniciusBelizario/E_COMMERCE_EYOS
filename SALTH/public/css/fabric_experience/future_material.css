@@ -1,0 +1,195 @@
+/* Seção: Tecidos do Futuro */
+.future-materials-section {
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, #2f2f2f, #3c3c3c); /* Fundo prateado escuro */
+    color: #ffffff;
+    text-align: center;
+}
+
+.future-materials-section .materials-header h2 {
+    font-size: 3rem;
+    color: #f7f7f7;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.future-materials-section .materials-header p {
+    font-size: 1.2rem;
+    color: #cfcfcf;
+    font-family: 'Roboto', sans-serif;
+    margin-bottom: 3rem;
+    line-height: 1.6;
+}
+
+/* Grade de Materiais */
+.materials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 2rem; /* Maior espaçamento entre os itens */
+    justify-items: center;
+}
+
+/* Cada Material */
+.material-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #404040;
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.material-item:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.material-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    border: 3px solid #ffffff;
+    transition: transform 0.3s ease;
+}
+
+.material-item:hover img {
+    transform: scale(1.2);
+}
+
+.material-item p {
+    font-size: 1.1rem;
+    color: #e0e0e0;
+    font-family: 'Roboto', sans-serif;
+    text-transform: capitalize;
+}
+
+/* Modal */
+.material-modal {
+    display: none; /* Invisível por padrão */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Fundo escurecido */
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.5s ease;
+}
+
+.material-modal .modal-content {
+    display: flex;
+    flex-wrap: wrap;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 800px;
+    text-align: left;
+    gap: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    animation: slideIn 0.5s ease;
+}
+
+.material-modal .modal-body img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.material-modal .modal-body {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex: 1;
+}
+
+.material-modal .modal-text {
+    flex: 1;
+}
+
+.material-modal .modal-text h3 {
+    font-size: 2rem;
+    color: #333333;
+    margin-bottom: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
+.material-modal .modal-text p {
+    font-size: 1.2rem;
+    color: #555555;
+    line-height: 1.6;
+    font-family: 'Roboto', sans-serif;
+}
+
+.material-modal .close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.8rem;
+    color: #555555;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    font-weight: bold;
+}
+
+.material-modal .close-modal:hover {
+    color: #ff0000;
+}
+
+/* Animações */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .materials-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .material-item img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .material-modal .modal-body img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .material-modal .modal-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1.5rem;
+    }
+}

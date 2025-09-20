@@ -1,0 +1,117 @@
+/* ============================
+   Call to Action Section
+============================ */
+.call-to-action {
+    position: relative;
+    width: 100%; /* Garante que a seção ocupe toda a largura */
+    height: 60vh; /* Proporção menor estilo banner */
+    display: flex; /* Centraliza conteúdo no centro da seção */
+    justify-content: center; /* Alinha horizontalmente */
+    align-items: center; /* Alinha verticalmente */
+    overflow: hidden; /* Remove vazamentos */
+    background: #000; /* Fallback para o caso de o vídeo não carregar */
+    z-index: 0;
+  }
+  
+  /* Vídeo de Fundo */
+  .cta-video {
+    position: absolute;
+    top: 50%; /* Centraliza verticalmente */
+    left: 50%; /* Centraliza horizontalmente */
+    width: 100%; /* Ocupa toda a largura */
+    height: 100%; /* Ocupa toda a altura */
+    object-fit: cover; /* Mantém a proporção sem cortes */
+    transform: translate(-50%, -50%); /* Garante centralização precisa */
+    z-index: -1; /* Coloca atrás do conteúdo */
+  }
+  
+  /* Conteúdo Principal */
+  .cta-content {
+    position: relative;
+    z-index: 1; /* Fica acima do vídeo */
+    max-width: 800px; /* Limita a largura máxima do conteúdo */
+    text-align: center; /* Centraliza o texto */
+    color: #fff; /* Texto branco */
+    padding: 20px;
+  }
+  
+  /* Título */
+  .cta-title {
+    font-size: 3rem; /* Tamanho grande para destaque */
+    font-weight: bold; /* Negrito */
+    margin-bottom: 15px; /* Espaçamento inferior */
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6); /* Sombra para legibilidade */
+  }
+  
+  /* Descrição */
+  .cta-description {
+    font-size: 1.5rem; /* Tamanho intermediário */
+    line-height: 1.8; /* Espaçamento confortável */
+    margin-bottom: 25px; /* Espaço abaixo do texto */
+    color: #eaeaea; /* Tom mais claro para contraste */
+  }
+  
+  /* Botão */
+  .cta-button {
+    display: inline-block;
+    padding: 12px 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff; /* Texto branco */
+    background: transparent; /* Fundo transparente */
+    border: 2px solid #fff; /* Borda branca */
+    border-radius: 30px; /* Bordas arredondadas */
+    text-decoration: none; /* Remove sublinhado */
+    transition: all 0.3s ease; /* Transição suave */
+  }
+  
+  .cta-button:hover {
+    background: #fff; /* Fundo branco no hover */
+    color: #000; /* Texto preto no hover */
+    transform: scale(1.1); /* Leve zoom no hover */
+  }
+  
+  /* ============================
+     Responsividade
+  ============================ */
+  /* Ajustes para tablets */
+  @media (max-width: 768px) {
+    .call-to-action {
+      height: 50vh; /* Altura menor */
+    }
+  
+    .cta-title {
+      font-size: 2.5rem; /* Título menor */
+    }
+  
+    .cta-description {
+      font-size: 1.2rem; /* Reduz o tamanho do texto */
+      line-height: 1.6;
+    }
+  
+    .cta-button {
+      padding: 10px 20px;
+      font-size: 1rem;
+    }
+  }
+  
+  /* Ajustes para smartphones */
+  @media (max-width: 480px) {
+    .call-to-action {
+      height: 40vh; /* Altura ainda menor */
+    }
+  
+    .cta-title {
+      font-size: 2rem; /* Título reduzido */
+    }
+  
+    .cta-description {
+      font-size: 1rem;
+    }
+  
+    .cta-button {
+      padding: 8px 15px;
+      font-size: 0.9rem;
+    }
+  }
+  

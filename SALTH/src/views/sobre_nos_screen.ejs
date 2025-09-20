@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nós | Salth</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="icon" href="/images/logo_preta.png" type="image/png" />
+    <link rel="stylesheet" href="/css/sobre_nos.css">
+</head>
+<body>
+    <header>
+        <%- include('partials/navbar') %>
+    </header>
+
+    <main>
+        <!-- Introdução -->
+        <section class="intro-section">
+            <div class="container">
+                <h1>Quem Somos</h1>
+                <p>A história da Salth é marcada por desafios, superações e inovação. Desde 2010, temos o compromisso de oferecer qualidade e tecnologia no mundo da moda masculina.</p>
+            </div>
+        </section>
+
+        <!-- Nossa História -->
+        <section class="history-section">
+            <h2>Nossa História</h2>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>2010</h3>
+                    <p>Thiago Salgado cria a Salth inspirado pelo programa Empretec do Sebrae, começando com a revenda de camisetas e criando o branding da marca.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h3>Primeiros Produtos</h3>
+                    <p>Produção inicial de 1000 camisetas e camisas polo. Apesar das dificuldades e do aprendizado com o mercado, Thiago se manteve determinado a consolidar a Salth.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h3>Crescimento no Mercado</h3>
+                    <p>Superando desafios, a Salth se tornou uma marca madura, conhecida por seu tecido nobre, vestimento estruturado e preços acessíveis.</p>
+                </div>
+
+                <div class="timeline-item">
+                    <h3>2025</h3>
+                    <p>Lançamento do e-commerce, levando tecnologia e inovação para o mercado digital com uma coleção exclusiva e condições diferenciadas.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Missão, Visão e Valores -->
+        <section class="mission-vision-section">
+            <h2>Missão, Visão e Valores</h2>
+            <div class="mv-content">
+                <div class="mv-item">
+                    <h3>Missão</h3>
+                    <p>Ser o maior e-commerce do segmento na América Latina, reinventando a moda masculina com tecnologia e tendências do mundo fashion.</p>
+                </div>
+                <div class="mv-item">
+                    <h3>Visão</h3>
+                    <p>Trazer o que há de mais tecnológico no mundo da moda masculina, com preços acessíveis e condições diferenciadas para todos.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Nossa Equipe -->
+        <section class="team-section">
+            <h2>Nossa Equipe</h2>
+            <p>Um time de criadores e vendedores apaixonados por moda e vendas, dedicados a oferecer o melhor para você.</p>
+            <div class="team-grid">
+                <div class="team-member">
+                    <img src="https://via.placeholder.com/150" alt="Membro da Equipe">
+                    <h3>Thiago Salgado</h3>
+                    <p>Fundador e Diretor Criativo</p>
+                </div>
+                <div class="team-member">
+                    <img src="https://via.placeholder.com/150" alt="Membro da Equipe">
+                    <h3>Ana Souza</h3>
+                    <p>Gerente de Marketing</p>
+                </div>
+                <div class="team-member">
+                    <img src="https://via.placeholder.com/150" alt="Membro da Equipe">
+                    <h3>Pedro Oliveira</h3>
+                    <p>Coordenador de Vendas</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call-to-Action -->
+        <section class="cta-section">
+            <h2>Descubra a Salth</h2>
+            <p>Junte-se a nós nessa jornada de inovação e qualidade na moda masculina.</p>
+            <a href="/vitrine" class="cta-button">Explore Nossa Coleção</a>
+        </section>
+    </main>
+
+    <footer>
+        <%- include('partials/footer') %>
+    </footer>
+    <script src="/js/sobre_nos.js"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+/* Seção de Benefícios */
+.benefits-section {
+    padding: 3rem 2rem;
+    background-color: #f0f0f0; /* Cor prateada suave */
+    text-align: center;
+    opacity: 0; /* Inicialmente invisível */
+    transform: translateY(50px); /* Começa deslocada para baixo */
+    transition: all 0.6s ease-in-out; /* Transição para animação */
+}
+
+/* Quando a seção estiver visível */
+.benefits-section.visible {
+    opacity: 1; /* Torna visível */
+    transform: translateY(0); /* Move para a posição original */
+}
+
+/* Quando a seção sair de vista */
+.benefits-section.hidden {
+    opacity: 0; /* Torna invisível */
+    transform: translateY(50px); /* Move para baixo novamente */
+}
+
+/* Título */
+.benefits-section h2 {
+    font-size: 2.5rem;
+    color: #333; /* Título em cinza escuro */
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+/* Grid de Benefícios */
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    justify-items: center;
+    align-items: center;
+}
+
+/* Itens de Benefício */
+.benefit-item {
+    background: #fff;
+    border-radius: 10px;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 300px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.benefit-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.benefit-item img {
+    width: 80px;
+    height: auto;
+    margin-bottom: 1.5rem;
+}
+
+.benefit-item h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
+.benefit-item p {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.6;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .benefits-section {
+        padding: 2rem 1rem;
+    }
+
+    .benefits-section h2 {
+        font-size: 2rem;
+    }
+
+    .benefit-item {
+        max-width: 100%;
+        padding: 1.5rem 1rem;
+    }
+
+    .benefit-item h3 {
+        font-size: 1.3rem;
+    }
+
+    .benefit-item p {
+        font-size: 0.9rem;
+    }
+}

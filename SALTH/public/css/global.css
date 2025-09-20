@@ -1,0 +1,5 @@
+/* Remove scroll lateral apenas no main */
+main {
+    overflow-x: hidden; /* Remove o scroll horizontal do conteúdo principal */
+  }
+  

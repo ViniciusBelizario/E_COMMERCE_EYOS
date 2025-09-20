@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - SALTH</title>
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/images/logo_preta.png" type="image/png" />
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <img src="/images/logo.png" alt="SALTH Logo" class="logo">
+            <nav>
+                <ul>
+                    <li><a href="#" onclick="mostrarSecao('insights')"><i class="fas fa-chart-bar"></i> Insights</a></li>
+                    <li><a href="#" onclick="mostrarSecao('cadastro')"><i class="fas fa-plus-circle"></i> Cadastrar Produto</a></li>
+                    <li><a href="#" onclick="mostrarSecao('produtos')"><i class="fas fa-box"></i> Produtos</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <section id="insights" class="content-section"><i class="fas fa-chart-bar"></i> <h2>Insights de Vendas</h2></section>
+            <section id="cadastro" class="content-section hidden"><i class="fas fa-plus-circle"></i> <h2>Cadastrar Novo Produto</h2></section>
+            <section id="produtos" class="content-section hidden"><i class="fas fa-box"></i> <h2>Lista de Produtos</h2></section>
+        </main>
+    </div>
+    
+    <script>
+        function mostrarSecao(secao) {
+            document.querySelectorAll('.content-section').forEach(el => el.classList.add('hidden'));
+            document.getElementById(secao).classList.remove('hidden');
+        }
+    </script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>

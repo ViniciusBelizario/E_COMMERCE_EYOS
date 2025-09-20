@@ -1,0 +1,96 @@
+/* Importando a fonte estilosa */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* Reset de estilos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Fundo da página com um gradiente sofisticado */
+body {
+    background: linear-gradient(135deg, #0d7377, #212121, #3d087b);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Container central do login */
+.login-container {
+    background: rgba(0, 0, 0, 0.85);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    width: 350px;
+    backdrop-filter: blur(8px);
+}
+
+/* Título do login */
+h1 {
+    font-size: 24px;
+    color: #00bcd4; /* Turquesa */
+    margin-bottom: 20px;
+}
+
+/* Formulário */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Labels */
+label {
+    text-align: left;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 5px;
+}
+
+/* Inputs */
+input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+    outline: none;
+    margin-bottom: 15px;
+}
+
+/* Botão de login */
+button {
+    background: linear-gradient(to right, #3d087b, #00bcd4);
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+    background: linear-gradient(to right, #00bcd4, #3d087b);
+    transform: scale(1.05);
+}
+
+/* Mensagem de erro */
+#errorMessage {
+    color: red;
+    margin-top: 10px;
+    display: none;
+    font-weight: bold;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .login-container {
+        width: 90%;
+    }
+}

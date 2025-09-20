@@ -1,0 +1,100 @@
+/* Call-to-Action Final */
+.cta-section {
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, #d3d3d3, #c0c0c0); /* Fundo prateado normal */
+    color: #333333;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-container {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.cta-section h2 {
+    font-size: 3rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #333333;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.cta-section p {
+    font-size: 1.5rem;
+    color: #555555;
+    font-family: 'Roboto', sans-serif;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+/* Botão Prateado Mais Quadrado */
+.cta-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #333333;
+    background: #e0e0e0; /* Prateado claro */
+    border: 2px solid #b0b0b0; /* Borda prateada */
+    border-radius: 6px; /* Mais quadrado */
+    text-decoration: none;
+    transition: background 0.3s ease, border 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.cta-button:hover {
+    background: #c0c0c0; /* Prateado mais escuro */
+    border: 2px solid #a0a0a0; /* Ajuste da borda */
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Animação do Texto */
+.cta-section h2, .cta-section p, .cta-button {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+.cta-section h2 {
+    animation-delay: 0s;
+}
+
+.cta-section p {
+    animation-delay: 0.2s;
+}
+
+.cta-button {
+    animation-delay: 0.4s;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .cta-section h2 {
+        font-size: 2.4rem;
+    }
+
+    .cta-section p {
+        font-size: 1.2rem;
+    }
+
+    .cta-button {
+        font-size: 1rem;
+        padding: 0.8rem 1.5rem;
+    }
+}

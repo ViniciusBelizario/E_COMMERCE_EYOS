@@ -1,0 +1,228 @@
+/* 
+=========================
+  RESET / BASE GERAL
+=========================
+*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  background-color: #f8f9fa;
+  color: #333;
+  padding-top: 20px;
+}
+
+/*
+=========================
+CHECKOUT SECTION
+=========================
+*/
+.checkout-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Layout flexível */
+.checkout-container {
+  display: flex;
+  gap: 30px;
+}
+
+/*
+=========================
+COLUNA ESQUERDA: FORMULÁRIO DE DADOS
+=========================
+*/
+.checkout-form-wrapper {
+  flex: 1;
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Títulos */
+.checkout-form-wrapper h2 {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  color: #444;
+}
+.checkout-form-wrapper h3 {
+  font-size: 1.2rem;
+  margin: 20px 0 10px;
+  color: #444;
+}
+
+/* Formulário */
+.checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Grupo de campo */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* Rotulagem e Inputs */
+.form-group label {
+  font-weight: 600;
+  color: #555;
+}
+.form-group input {
+  height: 42px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+/* Foco no input */
+.form-group input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  outline: none;
+}
+
+/* Duas colunas dentro do formulário (exemplo: Estado e CEP) */
+.form-group-inline {
+  display: flex;
+  gap: 15px;
+}
+.form-group-inline .form-group {
+  flex: 1;
+}
+
+/* Métodos de Pagamento */
+.payment-methods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 5px;
+}
+.payment-methods label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+/* Estilização de campos de cartão */
+.cartao-info {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Botão Confirmar */
+.btn-confirmar {
+  padding: 12px 22px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+.btn-confirmar:hover {
+  background-color: #218838;
+  transform: scale(1.03);
+}
+
+/*
+=========================
+COLUNA DIREITA: RESUMO DO PEDIDO
+=========================
+*/
+.order-summary-wrapper {
+  flex: 0.7;
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Título */
+.order-summary-wrapper h2 {
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+  color: #444;
+}
+
+/* Lista de itens */
+.order-items {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+.order-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+  padding: 12px 0;
+}
+
+/* Imagem do produto no resumo */
+.order-item img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-right: 12px;
+}
+
+/* Nome e preço */
+.item-info {
+  flex: 1;
+}
+.item-name {
+  font-weight: 600;
+  color: #555;
+}
+.item-price {
+  color: #666;
+}
+
+/* Subtotal, Frete, Total */
+.order-subtotal,
+.order-frete,
+.order-total {
+  text-align: right;
+  margin-bottom: 10px;
+  color: #333;
+}
+.order-subtotal {
+  font-size: 1rem;
+}
+.order-frete {
+  font-size: 1rem;
+}
+.order-total {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+/*
+=========================
+RESPONSIVIDADE (MOBILE)
+=========================
+*/
+@media (max-width: 992px) {
+  .checkout-container {
+      flex-direction: column;
+  }
+  .order-summary-wrapper,
+  .checkout-form-wrapper {
+      width: 100%;
+  }
+}

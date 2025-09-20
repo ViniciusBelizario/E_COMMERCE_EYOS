@@ -1,0 +1,152 @@
+/* Configuração Geral */
+.privacy-section {
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, #f8f8f8, #e6e6e6); /* Fundo prateado claro */
+    color: #333;
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.8;
+}
+
+.privacy-section h1 {
+    font-size: 3rem;
+    color: #2c3e50;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Subtítulos */
+.privacy-section h2 {
+    font-size: 2rem;
+    color: #2c3e50;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
+    text-transform: capitalize;
+    border-left: 5px solid #3498db;
+    padding-left: 1rem;
+}
+
+/* Texto */
+.privacy-section p {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 1.5rem;
+}
+
+/* Listas */
+.privacy-section ul,
+.privacy-section ol {
+    margin-left: 2rem;
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+.privacy-section ul li,
+.privacy-section ol li {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+    position: relative;
+}
+
+/* Ícones para Listas */
+.privacy-section ul li::before {
+    content: "•";
+    color: #3498db;
+    font-weight: bold;
+    display: inline-block;
+    width: 1rem;
+    margin-left: -1.5rem;
+}
+
+.privacy-section ol {
+    counter-reset: item;
+}
+
+.privacy-section ol li::before {
+    counter-increment: item;
+    content: counter(item) ".";
+    color: #3498db;
+    font-weight: bold;
+    display: inline-block;
+    width: 1.5rem;
+    margin-left: -2rem;
+}
+
+/* Botão de Voltar */
+.privacy-section .back-button {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 0.8rem 2rem;
+    background: #3498db;
+    color: #fff;
+    font-size: 1.2rem;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.privacy-section .back-button:hover {
+    background: #1d6fa5;
+    transform: translateY(-3px);
+}
+
+/* Tabelas (se houver) */
+.privacy-section table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-size: 1rem;
+    text-align: left;
+}
+
+.privacy-section table th,
+.privacy-section table td {
+    padding: 1rem;
+    border: 1px solid #ddd;
+}
+
+.privacy-section table th {
+    background: #3498db;
+    color: #fff;
+}
+
+.privacy-section table tr:nth-child(even) {
+    background: #f3f3f3;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .privacy-section {
+        padding: 2rem 1rem;
+    }
+
+    .privacy-section h1 {
+        font-size: 2.5rem;
+    }
+
+    .privacy-section h2 {
+        font-size: 1.8rem;
+    }
+
+    .privacy-section p {
+        font-size: 1.1rem;
+    }
+
+    .privacy-section ul li,
+    .privacy-section ol li {
+        font-size: 1.1rem;
+    }
+
+    .privacy-section .back-button {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+}

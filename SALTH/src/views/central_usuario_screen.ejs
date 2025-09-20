@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Gerencie sua conta, veja seus pedidos e atualize suas preferências na plataforma Salth.">
+  <meta name="keywords" content="Minha Conta, Dashboard, Pedidos, Configurações, Salth">
+  <meta name="author" content="Salth">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Central do Usuário - Salth</title>
+  <link rel="stylesheet" href="/css/central_usuario_screen-css/aside_central_usuario.css">
+  <link rel="stylesheet" href="/css/central_usuario_screen-css/main_central_usuario.css">
+  <link rel="stylesheet" href="/css/central_usuario_screen-css/home_central_usuario.css">
+  <link rel="stylesheet" href="/css/central_usuario_screen-css/pedido_central_usuario.css">
+  <link rel="stylesheet" href="/css/central_usuario_screen-css/settings_central_usuario.css">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="icon" href="/images/logo_preta.png" type="image/png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  
+  <!-- Navbar -->
+  <%- include("partials/navbar", { title }) %>
+
+  <!-- Dashboard do Usuário -->
+  <main class="user-dashboard">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="user-profile">
+        <!-- Avatar gerado dinamicamente -->
+        <div id="user-avatar" class="user-avatar"></div>
+        <h2 id="user-name" class="user-name"></h2>
+        <p id="user-email" class="user-email"></p>
+      </div>
+      <nav class="menu">
+        <ul>
+          <li><a href="/home"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="/orders"><i class="fas fa-box"></i> Meus Pedidos</a></li>
+          <li><a href="/settings"><i class="fas fa-cog"></i> Configurações</a></li>
+          <li><a href="/logout" class="logout"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Conteúdo Principal -->
+    <section id="home" class="dashboard-content active">
+      <h1>Bem-vindo(a) à sua conta, <span id="user-first-name"></span>!</h1>
+      <p>Gerencie seus pedidos e configurações em um só lugar.</p>
+
+      <!-- Resumo da Conta -->
+      <div class="account-summary">
+        <div class="summary-card">
+          <i class="fas fa-box"></i>
+          <h3>Meus Pedidos</h3>
+          <p>Acompanhe o status dos seus pedidos de forma prática.</p>
+          <a href="/orders" class="btn-view">Ver Pedidos</a>
+        </div>
+        <div class="summary-card">
+          <i class="fas fa-cog"></i>
+          <h3>Configurações</h3>
+          <p>Personalize suas preferências e ajuste sua conta.</p>
+          <a href="/settings" class="btn-view">Configurações</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="orders" class="dashboard-content">
+      <h1>Meus Pedidos</h1>
+      <ul class="order-list" id="user-orders">
+        <!-- Aqui os pedidos do usuário serão carregados dinamicamente -->
+      </ul>
+    </section>
+    
+    <!-- Modal de Detalhes de Entrega -->
+    <div id="modal-entrega" class="modal">
+      <div class="modal-content">
+        <span class="close-modal-entrega">&times;</span>
+        <h2>Detalhes do Pedido</h2>
+        <div id="order-details"></div>
+      </div>
+    </div>
+
+    <section id="settings" class="dashboard-content">
+      <h1>Configurações</h1>
+      <p>Gerencie suas informações pessoais e preferências.</p>
+      
+      <form class="settings-form">
+        <fieldset>
+          <legend>Informações Pessoais</legend>
+          <div class="form-group">
+            <label for="username">Nome Completo:</label>
+            <input type="text" id="username" name="username">
+          </div>
+          
+          <div class="form-group">
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email">
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Segurança</legend>
+          <div class="form-group">
+            <label for="current-password">Senha Atual:</label>
+            <input type="password" id="current-password" name="current-password">
+          </div>
+          <div class="form-group">
+            <label for="new-password">Nova Senha:</label>
+            <input type="password" id="new-password" name="new-password">
+          </div>
+          <div class="form-group">
+            <label for="confirm-password">Confirme a Nova Senha:</label>
+            <input type="password" id="confirm-password" name="confirm-password">
+          </div>
+        </fieldset>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-save">Salvar Alterações</button>
+          <button type="reset" class="btn-cancel">Cancelar</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <%- include("partials/footer") %>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/central_usuario_screen.js"></script>
+</body>
+</html>

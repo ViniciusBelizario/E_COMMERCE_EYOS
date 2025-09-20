@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vitrine | SALTH - Moda Masculina</title>
+    
+    <!-- Meta Tags para SEO -->
+    <meta name="description" content="Explore a vitrine exclusiva da SALTH com moda masculina de alta qualidade.">
+    <meta name="keywords" content="moda masculina, camisetas, polos, camisas, tecidos premium, SALTH, loja de roupas">
+    <meta name="author" content="SALTH - Moda Masculina">
+    
+    <!-- Meta Tags para Redes Sociais -->
+    <meta property="og:title" content="Vitrine | SALTH - Moda Masculina">
+    <meta property="og:description" content="Descubra nossa seleção de moda masculina com peças de alta qualidade.">
+    <meta property="og:image" content="/images/og-banner.png">
+    <meta property="og:url" content="https://www.salth.com.br/vitrine">
+    <meta property="og:type" content="website">
+
+    <!-- Ícones e Favicon -->
+    <link rel="icon" href="/images/logo_preta.png" type="image/png" />
+    
+    <!-- Estilos CSS -->
+    <link rel="stylesheet" href="/css/vitrine_css/grid.css">
+    <link rel="stylesheet" href="/css/vitrine_css/filtro.css">
+    <link rel="stylesheet" href="/css/vitrine_css/banner.css">
+    <link rel="stylesheet" href="/css/vitrine_css/vitrine.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <%- include('partials/navbar') %>
+
+    <div class="category-page">
+        <!-- Sidebar de Filtros -->
+        <aside class="filter-sidebar">
+            <form id="filter-form">
+                
+                <!-- Dropdown de Categorias -->
+                <div class="filter-dropdown">
+                    <button type="button" class="dropdown-btn">Categorias</button>
+                    <div class="dropdown-content" id="categoria-filtro">
+                        <p>Carregando categorias...</p>
+                    </div>
+                </div>
+
+                <!-- Dropdown de Cores -->
+                <div class="filter-dropdown">
+                    <button type="button" class="dropdown-btn">Cores</button>
+                    <div class="dropdown-content" id="cor-filtro">
+                        <p>Carregando cores...</p>
+                    </div>
+                </div>
+
+                <!-- Dropdown de Tamanhos -->
+                <div class="filter-dropdown">
+                    <button type="button" class="dropdown-btn">Tamanhos</button>
+                    <div class="dropdown-content" id="tamanho-filtro">
+                        <p>Carregando tamanhos...</p>
+                    </div>
+                </div>
+
+                <button type="submit" class="filter-btn">Filtrar</button>
+                <button type="reset" class="reset-btn">Limpar Filtros</button>
+            </form>
+        </aside>
+
+        <!-- Grid de Produtos -->
+        <main class="product-grid">
+            <p>Carregando produtos...</p> <!-- Placeholder até os produtos serem carregados via JS -->
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <%- include('partials/footer') %>
+
+    <!-- Scripts -->
+    <script src="/js/vitrine.js"></script>
+    <script src="/js/filtro.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Popula o dropdown de Categorias
+        fetch("http://localhost:3001/categorias")
+          .then(response => response.json())
+          .then(data => {
+            const categoriaFiltro = document.getElementById("categoria-filtro");
+            categoriaFiltro.innerHTML = "";
+            data.forEach(categoria => {
+              const label = document.createElement("label");
+              label.innerHTML = `<input type="checkbox" name="categoria" value="${categoria.id}"> ${categoria.nome}`;
+              categoriaFiltro.appendChild(label);
+            });
+          })
+          .catch(error => {
+            console.error("Erro ao carregar categorias:", error);
+            document.getElementById("categoria-filtro").innerHTML = "<p>Erro ao carregar categorias.</p>";
+          });
+
+        // Popula o dropdown de Cores
+        fetch("http://localhost:3001/cores")
+          .then(response => response.json())
+          .then(data => {
+            const corFiltro = document.getElementById("cor-filtro");
+            corFiltro.innerHTML = "";
+            data.forEach(cor => {
+              // Supondo que o endpoint retorne { id, nome, codigo_hex }
+              const label = document.createElement("label");
+              label.innerHTML = `<input type="checkbox" name="cor" value="${cor.codigo_hex}"> ${cor.nome}`;
+              corFiltro.appendChild(label);
+            });
+          })
+          .catch(error => {
+            console.error("Erro ao carregar cores:", error);
+            document.getElementById("cor-filtro").innerHTML = "<p>Erro ao carregar cores.</p>";
+          });
+
+        // Popula o dropdown de Tamanhos
+        fetch("http://localhost:3001/tamanhos")
+          .then(response => response.json())
+          .then(data => {
+            const tamanhoFiltro = document.getElementById("tamanho-filtro");
+            tamanhoFiltro.innerHTML = "";
+            data.forEach(tamanho => {
+              // Supondo que o endpoint retorne { id, nome }
+              const label = document.createElement("label");
+              label.innerHTML = `<input type="checkbox" name="tamanho" value="${tamanho.nome}"> ${tamanho.nome}`;
+              tamanhoFiltro.appendChild(label);
+            });
+          })
+          .catch(error => {
+            console.error("Erro ao carregar tamanhos:", error);
+            document.getElementById("tamanho-filtro").innerHTML = "<p>Erro ao carregar tamanhos.</p>";
+          });
+      });
+
+      // Função para renderizar os produtos na grid
+      function renderProducts(products) {
+        const productGrid = document.querySelector('.product-grid');
+        productGrid.innerHTML = "";
+        if (!products || products.length === 0) {
+          productGrid.innerHTML = "<p>Nenhum produto encontrado.</p>";
+          return;
+        }
+        products.forEach(produto => {
+          const card = document.createElement("div");
+          card.className = "product-card";
+          card.innerHTML = `
+            <img src="http://localhost:3001${produto.imagem_url}" alt="${produto.nome}">
+            <h2>${produto.nome}</h2>
+            <p>R$ ${parseFloat(produto.preco).toFixed(2)}</p>
+          `;
+          productGrid.appendChild(card);
+        });
+      }
+
+      // Evento de submit do formulário de filtros
+      document.getElementById("filter-form").addEventListener("submit", function(e) {
+        e.preventDefault();
+        
+        const selectedCategorias = Array.from(document.querySelectorAll('input[name="categoria"]:checked')).map(el => el.value);
+        const selectedCores = Array.from(document.querySelectorAll('input[name="cor"]:checked')).map(el => el.value);
+        const selectedTamanhos = Array.from(document.querySelectorAll('input[name="tamanho"]:checked')).map(el => el.value);
+        
+        const params = new URLSearchParams();
+        if (selectedCategorias.length > 0) {
+          params.append('categoria', selectedCategorias.join(','));
+        }
+        if (selectedCores.length > 0) {
+          params.append('cor', selectedCores.join(','));
+        }
+        if (selectedTamanhos.length > 0) {
+          params.append('tamanho', selectedTamanhos.join(','));
+        }
+        
+        // Exemplo: chamada à API de produtos com os filtros selecionados
+        fetch("http://localhost:3001/produtos?" + params.toString())
+          .then(response => response.json())
+          .then(data => {
+            renderProducts(data);
+          })
+          .catch(error => {
+            console.error("Erro ao buscar produtos filtrados:", error);
+            document.querySelector('.product-grid').innerHTML = "<p>Erro ao carregar produtos.</p>";
+          });
+      });
+    </script>
+</body>
+</html>

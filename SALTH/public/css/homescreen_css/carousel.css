@@ -1,0 +1,118 @@
+/* Navbar */
+.navbar {
+  font-family: 'Playfair Display', serif;
+  position: sticky; /* Fixa a navbar no topo ao rolar */
+  top: 0;
+  z-index: 1000;
+  background-color: #000000; /* Cor inicial sólida */
+  transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adiciona sombra inicial */
+}
+
+/* Estilo Geral do Carrossel */
+.carousel {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* Ocupa toda a altura da tela */
+  overflow: hidden;
+  margin-top: -100px; /* Sobrepõe a navbar para alinhar no topo */
+}
+
+.carousel-track-container {
+  position: relative;
+  width: 100%;
+  height: 100%; /* Garante que o container ocupe toda a altura */
+  overflow: hidden; /* Oculta qualquer conteúdo extra */
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  width: 100%; /* Garante que o track ocupe toda a largura */
+  height: 100%; /* Garante que o track ocupe toda a altura */
+  margin: 0;
+  padding: 0;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  height: 100%; /* Cada slide ocupa toda a altura disponível */
+  list-style: none; /* Remove estilo de lista */
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Centraliza o conteúdo no slide */
+}
+
+.carousel-slide img,
+.carousel-slide video {
+  width: 100%; /* Preenche a largura */
+  height: 100%; /* Preenche a altura */
+  object-fit: cover; /* Ajusta o conteúdo para cobrir o espaço sem distorcer */
+  object-position: center; /* Centraliza o conteúdo */
+}
+
+/* Vídeos no Carrossel */
+.carousel-slide video {
+  autoplay: true;
+  muted: true;
+  loop: true;
+}
+
+/* Botão Transparente no Carrossel */
+/* Botão Elegante no Carrossel */
+.carousel-button-container {
+  position: absolute;
+  bottom: 5%; /* Posiciona mais próximo da borda inferior */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.carrosel-button {
+  display: inline-block;
+  padding: 15px 50px; /* Botão mais largo para maior destaque */
+  font-size: 1.3rem;
+  font-family: 'Playfair Display', serif; /* Combina com o restante da identidade */
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  text-decoration: none;
+  background: rgba(0, 0, 0, 0.6); /* Fundo com transparência */
+  border: 1px solid rgba(255, 255, 255, 0.8); /* Borda branca sutil */
+  border-radius: 50px;
+  backdrop-filter: blur(4px); /* Efeito de desfoque no fundo */
+  transition: all 0.4s ease;
+}
+
+.carrosel-button:hover {
+  background: rgba(255, 255, 255, 0.9); /* Fundo branco sólido */
+  color: #000000; /* Texto preto */
+  border-color: #000000;
+  transform: scale(1.1); /* Zoom leve */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra mais elegante */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .carousel {
+    height: 70vh; /* Ajusta a altura para telas menores */
+  }
+  .carrosel-button {
+    font-size: 1rem;
+    padding: 10px 20px;
+  }
+  .carousel-button {
+    width: 35px;
+    height: 35px;
+  }
+  .carousel-button i {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .carrosel-button {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+}
