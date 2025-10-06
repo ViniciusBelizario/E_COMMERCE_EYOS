@@ -1,231 +1,246 @@
+// src/controllers/ProdutoController.js
+const sequelize = require("../config/database");
+const { Op, fn, col, literal } = require("sequelize");
 const Produto = require("../models/Produto");
 const ProdutoVariacao = require("../models/ProdutoVariacao");
 const Cor = require("../models/Cor");
 const Tamanho = require("../models/Tamanho");
+const Marca = require("../models/Marca");
+const Categoria = require("../models/Categoria");
 
-// Função auxiliar para buscar um arquivo pelo fieldname no array req.files
-function getFileByFieldName(req, fieldname) {
-  if (!req.files || !Array.isArray(req.files)) return null;
-  return req.files.find(file => file.fieldname === fieldname) || null;
-}
-
-const listarProdutos = async (req, res) => {
+// Lista produtos (com variações)
+const listar = async (req, res) => {
   try {
     const produtos = await Produto.findAll({
       include: [
         {
           model: ProdutoVariacao,
-          attributes: ["quantidade", "imagem_url"],
-          include: [
-            { model: Cor, attributes: ["id", "nome", "codigo_hex"] },
-            { model: Tamanho, attributes: ["id", "nome"] }
-          ],
+          include: [Cor, Tamanho],
         },
       ],
+      order: [["id", "DESC"]],
     });
-
     return res.json(produtos);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Erro ao listar produtos", detalhes: error.message });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Erro ao listar produtos" });
   }
 };
 
-const buscarProduto = async (req, res) => {
+// Busca por id
+const buscar = async (req, res) => {
   try {
-    const produto = await Produto.findByPk(req.params.id, {
-      include: [
-        {
-          model: ProdutoVariacao,
-          attributes: ["quantidade", "imagem_url"],
-          include: [
-            { model: Cor, attributes: ["id", "nome", "codigo_hex"] },
-            { model: Tamanho, attributes: ["id", "nome"] }
-          ],
-        },
-      ],
+    const { id } = req.params;
+    const produto = await Produto.findByPk(id, {
+      include: [{ model: ProdutoVariacao, include: [Cor, Tamanho] }],
     });
-
-    if (!produto) {
-      return res.status(404).json({ error: "Produto não encontrado" });
-    }
-
+    if (!produto) return res.status(404).json({ error: "Produto não encontrado" });
     return res.json(produto);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Erro ao buscar produto", detalhes: error.message });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Erro ao buscar produto" });
   }
 };
 
-const criarProduto = async (req, res) => {
+/**
+ * Criar OU mesclar produto/variação
+ * Regra:
+ * - Procura produto por (nome, marca_id, categoria_id). Se existir, reaproveita.
+ * - Para cada variação recebida (cor_id, tamanho_id, quantidade):
+ *      - se já existir, soma quantidade
+ *      - se não existir, cria
+ * - Recalcula `estoque` do Produto como soma das quantidades das variações
+ * Aceita upload de imagem/vídeo via uploadMiddleware (fields: imagem, video)
+ */
+const criarOuMesclar = async (req, res) => {
+  const t = await sequelize.transaction();
   try {
-    const usuario = req.user;
-    if (!usuario || usuario.tipo !== "administrador") {
-      return res.status(403).json({ error: "Apenas administradores podem criar produtos." });
-    }
+    let {
+      nome,
+      descricao = null,
+      preco,
+      marca_id,
+      categoria_id,
+      // pode vir string (multipart) ou array JSON
+      variacoes = [],
+    } = req.body;
 
-    let { nome, descricao, preco, estoque, categoria_id, marca_id, variacoes } = req.body;
-
-    if (!estoque || isNaN(estoque)) {
-      return res.status(400).json({ error: "O campo 'estoque' é obrigatório e deve ser um número." });
-    }
-
-    // Obter arquivos gerais (imagem e vídeo) do array req.files
-    let imagem_url = null;
-    let video_url = null;
-    const fileImagem = getFileByFieldName(req, "imagem");
-    if (fileImagem) {
-      imagem_url = `/uploads/images/${fileImagem.filename}`;
-    }
-    const fileVideo = getFileByFieldName(req, "video");
-    if (fileVideo) {
-      video_url = `/uploads/videos/${fileVideo.filename}`;
-    }
-
-    // Converter variacoes para JSON, se necessário
+    // Quando vem por multipart/form-data, variacoes geralmente é string
     if (typeof variacoes === "string") {
       try {
         variacoes = JSON.parse(variacoes);
-      } catch (error) {
-        return res.status(400).json({ error: "Formato de 'variacoes' inválido. Deve ser um array JSON." });
+      } catch {
+        return res.status(400).json({ error: "Campo 'variacoes' deve ser um JSON válido." });
       }
     }
+    if (!Array.isArray(variacoes)) variacoes = [];
 
-    // Criar o produto no banco de dados
-    const produto = await Produto.create({
-      nome,
-      descricao,
-      preco,
-      estoque,
-      categoria_id,
-      marca_id,
-      imagem_url,
-      video_url,
+    // uploads
+    const imagemFile = req.files?.imagem?.[0];
+    const videoFile = req.files?.video?.[0];
+    const imagem_url = imagemFile ? `/uploads/images/${imagemFile.filename}` : null;
+    const video_url = videoFile ? `/uploads/videos/${videoFile.filename}` : null;
+
+    // validações básicas
+    if (!nome || !preco || !marca_id || !categoria_id) {
+      return res.status(400).json({
+        error: "Campos obrigatórios: nome, preco, marca_id, categoria_id",
+      });
+    }
+
+    // Busca (ou cria) o produto por nome exato + marca + categoria
+    // (remova qualquer sufixo que você tenha colocado nos testes para permitir o match)
+    let produto = await Produto.findOne({
+      where: { nome, marca_id, categoria_id },
+      transaction: t,
+      lock: t.LOCK.UPDATE,
     });
 
-    // Processar cada variação enviada
-    if (variacoes && Array.isArray(variacoes)) {
-      for (const variacao of variacoes) {
-        if (!variacao.cor_id || !variacao.tamanho_id || !variacao.quantidade) {
-          return res.status(400).json({
-            error: "Cada variação deve conter 'cor_id', 'tamanho_id' e 'quantidade'.",
-          });
-        }
-
-        // Buscar a imagem específica para essa variação (campo: imagem_variação_{cor_id}_{tamanho_id})
-        const fieldName = `imagem_variacao_${variacao.cor_id}_${variacao.tamanho_id}`;
-        let imagem_url_variacao = null;
-        const fileVariacao = getFileByFieldName(req, fieldName);
-        if (fileVariacao) {
-          imagem_url_variacao = `/uploads/images/${fileVariacao.filename}`;
-        }
-
-        await ProdutoVariacao.create({
-          produto_id: produto.id,
-          cor_id: variacao.cor_id,
-          tamanho_id: variacao.tamanho_id,
-          quantidade: variacao.quantidade,
-          imagem_url: imagem_url_variacao,
-        });
+    if (!produto) {
+      produto = await Produto.create(
+        {
+          nome,
+          descricao,
+          preco,
+          estoque: 0, // recalculamos já já
+          imagem_url,
+          video_url,
+          marca_id,
+          categoria_id,
+        },
+        { transaction: t }
+      );
+    } else {
+      // Se já existe, podemos atualizar campos opcionais se foram enviados
+      const patch = {};
+      if (descricao !== null && descricao !== undefined) patch.descricao = descricao;
+      if (preco !== undefined) patch.preco = preco;
+      if (imagem_url) patch.imagem_url = imagem_url;
+      if (video_url) patch.video_url = video_url;
+      if (Object.keys(patch).length) {
+        await produto.update(patch, { transaction: t });
       }
     }
 
-    return res.status(201).json({ produto, variacoes });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Erro ao criar produto", detalhes: error.message });
+    // Para cada variação: soma ou cria
+    for (const v of variacoes) {
+      const { cor_id, tamanho_id, quantidade = 0, imagem_url: imgVar = null } = v || {};
+      if (!cor_id || !tamanho_id) {
+        await t.rollback();
+        return res
+          .status(400)
+          .json({ error: "Cada variação precisa de 'cor_id' e 'tamanho_id'." });
+      }
+      if (!Number.isInteger(quantidade) || quantidade < 0) {
+        await t.rollback();
+        return res
+          .status(400)
+          .json({ error: "Quantidade da variação deve ser um inteiro >= 0." });
+      }
+
+      const existente = await ProdutoVariacao.findOne({
+        where: { produto_id: produto.id, cor_id, tamanho_id },
+        transaction: t,
+        lock: t.LOCK.UPDATE,
+      });
+
+      if (existente) {
+        // soma a quantidade
+        if (quantidade > 0) {
+          await existente.update(
+            {
+              quantidade: literal(`quantidade + ${quantidade}`),
+              // opcionalmente, atualiza a imagem da variação se enviada
+              ...(imgVar ? { imagem_url: imgVar } : {}),
+            },
+            { transaction: t }
+          );
+        }
+      } else {
+        // cria nova variação
+        await ProdutoVariacao.create(
+          {
+            produto_id: produto.id,
+            cor_id,
+            tamanho_id,
+            quantidade,
+            imagem_url: imgVar || null,
+          },
+          { transaction: t }
+        );
+      }
+    }
+
+    // Recalcula estoque do produto = soma das variações
+    const totalEstoque = await ProdutoVariacao.sum("quantidade", {
+      where: { produto_id: produto.id },
+      transaction: t,
+    });
+    await produto.update({ estoque: totalEstoque || 0 }, { transaction: t });
+
+    await t.commit();
+
+    // Retorna produto atualizado com associações
+    const resposta = await Produto.findByPk(produto.id, {
+      include: [{ model: ProdutoVariacao, include: [Cor, Tamanho] }],
+    });
+    return res.status(201).json(resposta);
+  } catch (e) {
+    await t.rollback();
+    console.error(e);
+    // Trate violação da unique (produto_id,cor_id,tamanho_id) com merge seguro
+    if (e.name === "SequelizeUniqueConstraintError") {
+      return res.status(409).json({
+        error:
+          "Variação duplicada para este produto (produto_id, cor_id, tamanho_id). Tente novamente.",
+      });
+    }
+    return res.status(500).json({ error: "Erro ao criar/mesclar produto" });
   }
 };
 
-const atualizarProduto = async (req, res) => {
+// Atualizar produto (campos básicos)
+const atualizar = async (req, res) => {
   try {
-    const usuario = req.user;
-    if (!usuario || usuario.tipo !== "administrador") {
-      return res.status(403).json({ error: "Apenas administradores podem atualizar produtos." });
-    }
+    const { id } = req.params;
+    const produto = await Produto.findByPk(id);
+    if (!produto) return res.status(404).json({ error: "Produto não encontrado" });
 
-    const { nome, descricao, preco, estoque, categoria_id, marca_id, variacoes } = req.body;
+    const patch = { ...req.body };
 
-    let imagem_url = null;
-    let video_url = null;
-    const fileImagem = getFileByFieldName(req, "imagem");
-    if (fileImagem) {
-      imagem_url = `/uploads/images/${fileImagem.filename}`;
-    }
-    const fileVideo = getFileByFieldName(req, "video");
-    if (fileVideo) {
-      video_url = `/uploads/videos/${fileVideo.filename}`;
-    }
+    // uploads
+    const imagemFile = req.files?.imagem?.[0];
+    const videoFile = req.files?.video?.[0];
+    if (imagemFile) patch.imagem_url = `/uploads/images/${imagemFile.filename}`;
+    if (videoFile) patch.video_url = `/uploads/videos/${videoFile.filename}`;
 
-    const produto = await Produto.findByPk(req.params.id);
-    if (!produto) {
-      return res.status(404).json({ error: "Produto não encontrado" });
-    }
-
-    await produto.update({
-      nome,
-      descricao,
-      preco,
-      estoque,
-      categoria_id,
-      marca_id,
-      imagem_url,
-      video_url,
-    });
-
-    if (variacoes && Array.isArray(variacoes)) {
-      // Remove as variações atuais do produto
-      await ProdutoVariacao.destroy({ where: { produto_id: produto.id } });
-      for (const variacao of variacoes) {
-        if (!variacao.cor_id || !variacao.tamanho_id || !variacao.quantidade) {
-          return res.status(400).json({
-            error: "Cada variação deve conter 'cor_id', 'tamanho_id' e 'quantidade'.",
-          });
-        }
-        const fieldName = `imagem_variacao_${variacao.cor_id}_${variacao.tamanho_id}`;
-        let imagem_url_variacao = null;
-        const fileVariacao = getFileByFieldName(req, fieldName);
-        if (fileVariacao) {
-          imagem_url_variacao = `/uploads/images/${fileVariacao.filename}`;
-        }
-
-        await ProdutoVariacao.create({
-          produto_id: produto.id,
-          cor_id: variacao.cor_id,
-          tamanho_id: variacao.tamanho_id,
-          quantidade: variacao.quantidade,
-          imagem_url: imagem_url_variacao,
-        });
-      }
-    }
-
-    return res.json({ message: "Produto atualizado com sucesso", produto });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Erro ao atualizar produto", detalhes: error.message });
+    await produto.update(patch);
+    return res.json(produto);
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Erro ao atualizar produto" });
   }
 };
 
-const deletarProduto = async (req, res) => {
+// Remover produto
+const remover = async (req, res) => {
   try {
-    const usuario = req.user;
-    if (!usuario || usuario.tipo !== "administrador") {
-      return res.status(403).json({ error: "Apenas administradores podem remover produtos." });
-    }
+    const { id } = req.params;
+    const produto = await Produto.findByPk(id);
+    if (!produto) return res.status(404).json({ error: "Produto não encontrado" });
 
-    const produto = await Produto.findByPk(req.params.id);
-    if (!produto) {
-      return res.status(404).json({ error: "Produto não encontrado" });
-    }
-
-    await ProdutoVariacao.destroy({ where: { produto_id: produto.id } });
     await produto.destroy();
-
-    return res.json({ message: "Produto removido com sucesso" });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Erro ao remover produto", detalhes: error.message });
+    return res.json({ message: "Produto removido" });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Erro ao remover produto" });
   }
 };
 
-module.exports = { listarProdutos, buscarProduto, criarProduto, atualizarProduto, deletarProduto };
+module.exports = {
+  listar,
+  buscar,
+  criarOuMesclar,
+  atualizar,
+  remover,
+};

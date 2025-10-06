@@ -1,12 +1,15 @@
 const express = require("express");
-const ProdutoVariacaoController = require("../controllers/ProdutoVariacaoController"); 
+const ProdutoVariacaoController = require("../controllers/ProdutoVariacaoController");
 const authMiddleware = require("../middlewares/authMiddleware");
+const adminOnly = require("../middlewares/adminOnly");
 
 const router = express.Router();
 
-// 🔹 Rotas para ProdutoVariacao (cor + tamanho)
+// Público (listar para o front montar opções de variação)
 router.get("/", ProdutoVariacaoController.listarProdutoVariacoes);
-router.post("/", authMiddleware, ProdutoVariacaoController.criarProdutoVariacao);
-router.delete("/:id", authMiddleware, ProdutoVariacaoController.deletarProdutoVariacao);
+
+// Admin
+router.post("/", authMiddleware, adminOnly, ProdutoVariacaoController.criarProdutoVariacao);
+router.delete("/:id", authMiddleware, adminOnly, ProdutoVariacaoController.deletarProdutoVariacao);
 
 module.exports = router;

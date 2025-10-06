@@ -1,52 +1,42 @@
+// src/models/ProdutoVariacao.js
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
-const Produto = require("./Produto");
-const Cor = require("./Cor");
-const Tamanho = require("./Tamanho");
 
 const ProdutoVariacao = sequelize.define(
-  "ProdutoVariacao", // Nome correto do modelo
+  "ProdutoVariacao",
   {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-    produto_id: { 
-      type: DataTypes.INTEGER, 
-      references: { model: Produto, key: "id" }, 
-      allowNull: false 
+
+    produto_id: { type: DataTypes.INTEGER, allowNull: false },
+    cor_id: { type: DataTypes.INTEGER, allowNull: false },
+    tamanho_id: { type: DataTypes.INTEGER, allowNull: false },
+
+    quantidade: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+      validate: { min: 0 },
     },
-    cor_id: { 
-      type: DataTypes.INTEGER, 
-      references: { model: Cor, key: "id" }, 
-      allowNull: false 
-    },
-    tamanho_id: { 
-      type: DataTypes.INTEGER, 
-      references: { model: Tamanho, key: "id" }, 
-      allowNull: false 
-    },
-    quantidade: { 
-      type: DataTypes.INTEGER, 
-      allowNull: false, 
-      defaultValue: 0 
-    },
-    imagem_url: { 
-      type: DataTypes.STRING, 
-      allowNull: true 
-    }
+    imagem_url: { type: DataTypes.STRING, allowNull: true },
   },
   {
-    tableName: "ProdutoVariacao", // ✅ Garante que o nome da tabela será correto
-    timestamps: false
+    tableName: "ProdutoVariacao",
+    timestamps: false,
+
+    // ✅ Defina a UNIQUE apenas uma vez aqui
+    uniqueKeys: {
+      produto_variacao_produto_id_cor_id_tamanho_id: {
+        fields: ["produto_id", "cor_id", "tamanho_id"],
+      },
+    },
+
+    // Índices normais (sem unique) para acelerar buscas
+    indexes: [
+      { name: "produto_variacao_produto_id", fields: ["produto_id"] },
+      { name: "produto_variacao_cor_id", fields: ["cor_id"] },
+      { name: "produto_variacao_tamanho_id", fields: ["tamanho_id"] },
+    ],
   }
 );
-
-// Definição das associações
-Produto.hasMany(ProdutoVariacao, { foreignKey: "produto_id" });
-ProdutoVariacao.belongsTo(Produto, { foreignKey: "produto_id" });
-
-ProdutoVariacao.belongsTo(Cor, { foreignKey: "cor_id" });
-Cor.hasMany(ProdutoVariacao, { foreignKey: "cor_id" });
-
-ProdutoVariacao.belongsTo(Tamanho, { foreignKey: "tamanho_id" });
-Tamanho.hasMany(ProdutoVariacao, { foreignKey: "tamanho_id" });
 
 module.exports = ProdutoVariacao;

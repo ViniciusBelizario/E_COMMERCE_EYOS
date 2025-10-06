@@ -1,14 +1,14 @@
-// src/routes/corRoutes.js
 const express = require("express");
 const CorController = require("../controllers/CorController");
 const authMiddleware = require("../middlewares/authMiddleware");
+const adminOnly = require("../middlewares/adminOnly");
 
 const router = express.Router();
 
-// 🔹 Qualquer usuário pode visualizar as cores
+// Público
 router.get("/", CorController.listarCores);
 
-// 🔹 Apenas administradores podem criar novas cores
-router.post("/", authMiddleware, CorController.criarCor);
+// Admin
+router.post("/", authMiddleware, adminOnly, CorController.criarCor);
 
 module.exports = router;

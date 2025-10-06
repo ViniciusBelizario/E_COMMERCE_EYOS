@@ -1,3 +1,4 @@
+//src\utils\jwt.js
 const jwt = require('jsonwebtoken');
 
 // Chave secreta (idealmente, mova para o arquivo .env)

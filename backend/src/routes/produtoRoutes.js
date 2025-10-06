@@ -1,24 +1,33 @@
+// src/routes/produtoRoutes.js
 const express = require("express");
-const router = express.Router();
-const authMiddleware = require("../middlewares/authMiddleware");
-const upload = require("../middlewares/multerConfig");
 const ProdutoController = require("../controllers/ProdutoController");
+const auth = require("../middlewares/authMiddleware");
+const adminOnly = require("../middlewares/adminOnly");
+const upload = require("../middlewares/uploadMiddleware");
 
-// Rotas para produtos
-router.get("/", ProdutoController.listarProdutos);
-router.get("/:id", ProdutoController.buscarProduto);
+const router = express.Router();
+
+// Público
+router.get("/", ProdutoController.listar);
+router.get("/:id", ProdutoController.buscar);
+
+// Admin
 router.post(
-    "/",
-    authMiddleware,
-    upload.any(), // Permite múltiplos campos (imagem, video, imagem_variacao_x_y, etc.)
-    ProdutoController.criarProduto
+  "/",
+  auth,
+  adminOnly,
+  upload,                 // aceita imagem e vídeo
+  ProdutoController.criarOuMesclar // cria ou soma variação
 );
+
 router.put(
-    "/:id",
-    authMiddleware,
-    upload.any(), // Permite múltiplos campos
-    ProdutoController.atualizarProduto
+  "/:id",
+  auth,
+  adminOnly,
+  upload,
+  ProdutoController.atualizar
 );
-router.delete("/:id", authMiddleware, ProdutoController.deletarProduto);
+
+router.delete("/:id", auth, adminOnly, ProdutoController.remover);
 
 module.exports = router;
