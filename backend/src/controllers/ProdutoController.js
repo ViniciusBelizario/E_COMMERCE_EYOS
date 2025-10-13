@@ -235,8 +235,6 @@ const remover = async (req, res) => {
     return res.status(500).json({ error: "Erro ao remover produto" });
   }
 };
-
-const { Op, fn, col, where, literal } = require("sequelize");
 // ... seus requires existentes
 
 /**

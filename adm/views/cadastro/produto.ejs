@@ -1,0 +1,86 @@
+<% layout('layout') -%>
+<section class="space-y-6">
+  <h1 class="text-2xl font-semibold">Cadastro • Produto</h1>
+
+  <!-- IMPORTANTE: multipart -->
+  <form method="POST" enctype="multipart/form-data" class="bg-white border rounded p-4 space-y-4">
+    <div class="grid md:grid-cols-2 gap-4">
+      <%- include('../components/formInput', { name:'nome', label:'Nome do produto', placeholder:'Ex.: Camiseta Essentials' }) %>
+      <%- include('../components/formInput', { name:'descricao', label:'Descrição', placeholder:'Algodão 100%' }) %>
+
+      <%- include('../components/formInput', { name:'preco', label:'Preço', type:'number', placeholder:'79.90' }) %>
+
+      <%- include('../components/select', {
+        name:'idMarca', label:'Marca',
+        items: (marcas || []).map(m => ({value:m.id, text:m.nome}))
+      }) %>
+
+      <%- include('../components/select', {
+        name:'idCategoria', label:'Categoria',
+        items: (categorias || []).map(c => ({value:c.id, text:c.nome}))
+      }) %>
+    </div>
+
+    <!-- Imagem -->
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="flex flex-col gap-1">
+        <label for="imagem" class="text-sm text-slate-700">Imagem do produto</label>
+        <input id="imagem" name="imagem" type="file" accept="image/*"
+               class="border rounded px-3 py-2 focus:outline-none focus:ring w-full">
+        <p class="text-xs text-slate-500">Formatos comuns: .jpg, .png, .webp (até ~10MB).</p>
+        <img id="preview-imagem" class="mt-2 max-h-40 rounded hidden" alt="Prévia da imagem"/>
+      </div>
+
+      <!-- Vídeo -->
+      <div class="flex flex-col gap-1">
+        <label for="video" class="text-sm text-slate-700">Vídeo do produto</label>
+        <input id="video" name="video" type="file" accept="video/*"
+               class="border rounded px-3 py-2 focus:outline-none focus:ring w-full">
+        <p class="text-xs text-slate-500">Formatos comuns: .mp4, .webm (até ~50MB).</p>
+        <video id="preview-video" class="mt-2 max-h-40 rounded hidden" controls></video>
+      </div>
+    </div>
+
+    <button class="btn">Salvar</button>
+  </form>
+
+  <%- include('../components/table', {
+    cols: [
+      { key:'id',            label:'ID' },
+      { key:'nome',          label:'Produto' },
+      { key:'sku',           label:'SKU' },
+      { key:'marcaNome',     label:'Marca' },
+      { key:'categoriaNome', label:'Categoria' },
+      { key:'preco',         label:'Preço' },
+      { key:'estoqueTotal',  label:'Estoque Total' }
+    ],
+    rows: items,
+    basePath: '/cadastro/produto'
+  }) %>
+</section>
+
+<script>
+  // pré-visualização simples
+  document.addEventListener('DOMContentLoaded', () => {
+    const imgInput = document.getElementById('imagem');
+    const imgPrev  = document.getElementById('preview-imagem');
+    const vidInput = document.getElementById('video');
+    const vidPrev  = document.getElementById('preview-video');
+
+    imgInput?.addEventListener('change', () => {
+      const f = imgInput.files && imgInput.files[0];
+      if (!f) { imgPrev?.classList.add('hidden'); return; }
+      const url = URL.createObjectURL(f);
+      imgPrev.src = url;
+      imgPrev.classList.remove('hidden');
+    });
+
+    vidInput?.addEventListener('change', () => {
+      const f = vidInput.files && vidInput.files[0];
+      if (!f) { vidPrev?.classList.add('hidden'); return; }
+      const url = URL.createObjectURL(f);
+      vidPrev.src = url;
+      vidPrev.classList.remove('hidden');
+    });
+  });
+</script>

@@ -1,0 +1,85 @@
+<%
+const isHome = (path === '/');
+const isRelatorio = path.startsWith('/relatorio');
+const isCadastro = path.startsWith('/cadastro');
+const isProduto  = path.startsWith('/produto'); // <-- NOVO
+%>
+
+<aside class="w-64 bg-white border-r border-slate-200 flex flex-col">
+  <div class="p-4 border-b">
+    <div class="text-lg font-semibold">Eyros</div>
+    <div class="text-xs text-slate-500">Admin • Roupas</div>
+  </div>
+
+  <nav class="flex-1 p-3 space-y-1">
+    <!-- Home -->
+    <a href="/" class="block px-3 py-2 rounded hover:bg-slate-100 <%= isHome ? 'bg-slate-100 font-medium' : '' %>">
+      Home
+    </a>
+
+    <!-- Cadastro (colapsável) -->
+    <div class="mt-2">
+      <button
+        class="w-full flex items-center justify-between px-3 py-2 rounded hover:bg-slate-100 sidebar-accordion"
+        data-target="#submenu-cadastro"
+        aria-expanded="<%= isCadastro ? 'true' : 'false' %>">
+        <span class="text-left">Cadastro</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-150 chevron <%= isCadastro ? 'rotate-90' : '' %>" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707A1 1 0 118.707 5.293l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+        </svg>
+      </button>
+
+      <ul id="submenu-cadastro" class="mt-1 ml-2 border-l border-slate-200 pl-2 space-y-1 <%= isCadastro ? '' : 'hidden' %>">
+        <li><a href="/cadastro/marca"     class="block px-3 py-2 rounded hover:bg-slate-100 <%= path.startsWith('/cadastro/marca')     ? 'bg-slate-100 font-medium' : '' %>">Marca</a></li>
+        <li><a href="/cadastro/produto"   class="block px-3 py-2 rounded hover:bg-slate-100 <%= path.startsWith('/cadastro/produto')   ? 'bg-slate-100 font-medium' : '' %>">Produto</a></li>
+        <li><a href="/cadastro/cores"     class="block px-3 py-2 rounded hover:bg-slate-100 <%= path.startsWith('/cadastro/cores')     ? 'bg-slate-100 font-medium' : '' %>">Cores</a></li>
+        <li><a href="/cadastro/tamanho"   class="block px-3 py-2 rounded hover:bg-slate-100 <%= path.startsWith('/cadastro/tamanho')   ? 'bg-slate-100 font-medium' : '' %>">Tamanho</a></li>
+        <li><a href="/cadastro/categoria" class="block px-3 py-2 rounded hover:bg-slate-100 <%= path.startsWith('/cadastro/categoria') ? 'bg-slate-100 font-medium' : '' %>">Categoria</a></li>
+        <li><a href="/cadastro/variacao"  class="block px-3 py-2 rounded hover:bg-slate-100 <%= path.startsWith('/cadastro/variacao')  ? 'bg-slate-100 font-medium' : '' %>">Produto Variação</a></li>
+      </ul>
+    </div>
+
+    <!-- Produto (API) – colapsável (rotas internas em /produto/...) -->
+    <div class="mt-2">
+      <button
+        class="w-full flex items-center justify-between px-3 py-2 rounded hover:bg-slate-100 sidebar-accordion"
+        data-target="#submenu-produto-api"
+        aria-expanded="<%= isProduto ? 'true' : 'false' %>">
+        <span class="text-left">Produto</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-150 chevron <%= isProduto ? 'rotate-90' : '' %>" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707A1 1 0 118.707 5.293l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+        </svg>
+      </button>
+
+      <ul id="submenu-produto-api" class="mt-1 ml-2 border-l border-slate-200 pl-2 space-y-1 <%= isProduto ? '' : 'hidden' %>">
+        <!-- Listagens -->
+        <li><a href="/produto/marcas"            class="block px-3 py-2 rounded hover:bg-slate-100 <%= path.startsWith('/produto/marcas')            ? 'bg-slate-100 font-medium' : '' %>">Listar marcas</a></li>
+        <li><a href="/produto/categorias"        class="block px-3 py-2 rounded hover:bg-slate-100 <%= path.startsWith('/produto/categorias')        ? 'bg-slate-100 font-medium' : '' %>">Listar categorias</a></li>
+        <li><a href="/produto/tamanhos"          class="block px-3 py-2 rounded hover:bg-slate-100 <%= path.startsWith('/produto/tamanhos')          ? 'bg-slate-100 font-medium' : '' %>">Listar tamanhos</a></li>
+        <li><a href="/produto/cores"             class="block px-3 py-2 rounded hover:bg-slate-100 <%= path.startsWith('/produto/cores')             ? 'bg-slate-100 font-medium' : '' %>">Listar cores</a></li>
+        <li><a href="/produto/produtos"          class="block px-3 py-2 rounded hover:bg-slate-100 <%= path.startsWith('/produto/produtos')          ? 'bg-slate-100 font-medium' : '' %>">Listar produtos</a></li>
+        <li><a href="/produto/produto-variacoes" class="block px-3 py-2 rounded hover:bg-slate-100 <%= path.startsWith('/produto/produto-variacoes') ? 'bg-slate-100 font-medium' : '' %>">Listar produto variações</a></li>
+
+        <li class="mt-2 text-xs uppercase tracking-wide text-slate-400 px-3 pt-2">Buscas</li>
+        <li><a href="/produto/busca/produtos?q=camisa"                    class="block px-3 py-2 rounded hover:bg-slate-100 <%= path.startsWith('/produto/busca/produtos')        ? 'bg-slate-100 font-medium' : '' %>">Produto por nome</a></li>
+        <li><a href="/produto/busca/produtos-marca?q=camiseta&marca=nike" class="block px-3 py-2 rounded hover:bg-slate-100 <%= path.startsWith('/produto/busca/produtos-marca') ? 'bg-slate-100 font-medium' : '' %>">Produto nome + marca</a></li>
+        <li><a href="/produto/busca/marcas-parcial?nome=adi"              class="block px-3 py-2 rounded hover:bg-slate-100 <%= path.startsWith('/produto/busca/marcas-parcial') ? 'bg-slate-100 font-medium' : '' %>">Marca parcial</a></li>
+        <li><a href="/produto/busca/marcas-com-produtos?nome=adi&comProdutos=1" class="block px-3 py-2 rounded hover:bg-slate-100 <%= path.startsWith('/produto/busca/marcas-com-produtos') ? 'bg-slate-100 font-medium' : '' %>">Marca + id produto</a></li>
+      </ul>
+    </div>
+
+    <!-- Relatório -->
+    <a href="/relatorio" class="block px-3 py-2 rounded hover:bg-slate-100 mt-2 <%= isRelatorio ? 'bg-slate-100 font-medium' : '' %>">
+      Relatório
+    </a>
+  </nav>
+
+  <div class="p-4 border-t flex items-center justify-between">
+    <div class="text-sm text-slate-600">Conectado</div>
+    <div class="w-9 h-9 rounded-full bg-slate-200 flex items-center justify-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-600" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2a5 5 0 100 10 5 5 0 000-10zM4 20a8 8 0 1116 0v2H4v-2z"/>
+      </svg>
+    </div>
+  </div>
+</aside>

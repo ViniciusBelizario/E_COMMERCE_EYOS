@@ -1,0 +1,74 @@
+<% layout('layout') -%>
+<section class="space-y-6">
+  <h1 class="text-2xl font-semibold">Cadastro • Produto Variação</h1>
+
+  <form method="POST" enctype="multipart/form-data" class="bg-white border rounded p-4 space-y-4">
+    <div class="grid md:grid-cols-3 gap-4">
+      <%- include('../components/select', {
+        name: 'produtoId',
+        label: 'Produto',
+        items: (typeof produtosItems !== 'undefined' && Array.isArray(produtosItems)) ? produtosItems : []
+      }) %>
+
+      <%- include('../components/select', {
+        name: 'corId',
+        label: 'Cor',
+        items: (typeof coresItems !== 'undefined' && Array.isArray(coresItems)) ? coresItems : []
+      }) %>
+
+      <%- include('../components/select', {
+        name: 'tamanhoId',
+        label: 'Tamanho',
+        items: (typeof tamanhosItems !== 'undefined' && Array.isArray(tamanhosItems)) ? tamanhosItems : []
+      }) %>
+
+      <!-- REMOVIDO: campo Preço -->
+
+      <%- include('../components/formInput', {
+        name: 'estoque',
+        label: 'Estoque',
+        type: 'number',
+        placeholder: '0'
+      }) %>
+
+      <!-- Imagem da variação -->
+      <div class="flex flex-col gap-1">
+        <label for="imagem" class="text-sm text-slate-700">Imagem da variação</label>
+        <input id="imagem" name="imagem" type="file" accept="image/*"
+               class="border rounded px-3 py-2 focus:outline-none focus:ring w-full">
+        <p class="text-xs text-slate-500">Formatos: .jpg, .png, .webp (até ~10MB).</p>
+        <img id="preview-imagem" class="mt-2 max-h-40 rounded hidden" alt="Prévia"/>
+      </div>
+    </div>
+
+    <button class="btn">Salvar</button>
+  </form>
+
+  <%- include('../components/table', {
+    cols: [
+      { key:'id',          label:'ID' },
+      { key:'produtoNome', label:'Produto' },
+      { key:'corNome',     label:'Cor' },
+      { key:'tamanhoNome', label:'Tamanho' },
+      { key:'preco',       label:'Preço' },
+      { key:'estoque',     label:'Estoque' }
+    ],
+    rows: items,
+    basePath: '/cadastro/variacao'
+  }) %>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const imgInput = document.getElementById('imagem');
+    const imgPrev  = document.getElementById('preview-imagem');
+
+    imgInput?.addEventListener('change', () => {
+      const f = imgInput.files && imgInput.files[0];
+      if (!f) { imgPrev?.classList.add('hidden'); return; }
+      const url = URL.createObjectURL(f);
+      imgPrev.src = url;
+      imgPrev.classList.remove('hidden');
+    });
+  });
+</script>

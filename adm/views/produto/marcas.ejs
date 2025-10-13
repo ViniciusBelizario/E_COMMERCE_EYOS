@@ -1,0 +1,13 @@
+<% layout('layout') -%>
+<section class="space-y-4">
+  <h1 class="text-2xl font-semibold">Produto (API) • Marcas</h1>
+  <%- include('../components/table', {
+    cols: [
+      { key:'id',        label:'ID' },
+      { key:'nome',      label:'Marca' },
+      { key:'descricao', label:'Descrição' }
+    ],
+    rows: items,
+    basePath: '#'
+  }) %>
+</section>

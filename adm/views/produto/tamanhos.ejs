@@ -1,0 +1,12 @@
+<% layout('layout') -%>
+<section class="space-y-4">
+  <h1 class="text-2xl font-semibold">Produto (API) • Tamanhos</h1>
+  <%- include('../components/table', {
+    cols: [
+      { key:'id',   label:'ID' },
+      { key:'nome', label:'Tamanho' }
+    ],
+    rows: items,
+    basePath: '#'
+  }) %>
+</section>
