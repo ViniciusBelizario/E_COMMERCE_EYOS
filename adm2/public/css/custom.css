@@ -1,0 +1,14 @@
+/* botões e utilidades simples */
+.btn {
+  display: inline-block;
+  background: #0ea5e9; /* sky-500 */
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  transition: filter .15s ease;
+}
+.btn:hover { filter: brightness(0.95); }
+/* Link ativo na sidebar */
+.bg-slate-100.font-medium {
+  box-shadow: inset 2px 0 0 #0ea5e9; /* filete azul à esquerda */
+}

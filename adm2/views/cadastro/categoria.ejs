@@ -1,0 +1,31 @@
+<% layout('layout') -%>
+<section class="space-y-6">
+  <h1 class="text-2xl font-semibold">Cadastro • Categoria</h1>
+
+  <form method="POST" class="bg-white border rounded p-4 space-y-4">
+    <div class="grid md:grid-cols-3 gap-4">
+      <%- include('../components/formInput', {
+        name:'nome',
+        label:'Nome da categoria',
+        placeholder:'Ex.: Camisetas'
+      }) %>
+
+      <%- include('../components/formInput', {
+        name:'descricao',
+        label:'Descrição (opcional)',
+        placeholder:'Ex.: Camisetas unissex'
+      }) %>
+    </div>
+    <button class="btn">Salvar</button>
+  </form>
+
+  <%- include('../components/table', {
+    cols: [
+      { key:'id',        label:'ID' },
+      { key:'nome',      label:'Categoria' },
+      { key:'descricao', label:'Descrição' }
+    ],
+    rows: items,
+    basePath: '/cadastro/categoria'
+  }) %>
+</section>

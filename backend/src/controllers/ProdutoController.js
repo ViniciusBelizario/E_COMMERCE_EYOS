@@ -1,6 +1,6 @@
 // src/controllers/ProdutoController.js
 const sequelize = require("../config/database");
-const { Op, fn, col, literal } = require("sequelize");
+const { Op, fn, col, where, literal } = require("sequelize");
 const Produto = require("../models/Produto");
 const ProdutoVariacao = require("../models/ProdutoVariacao");
 const Cor = require("../models/Cor");
@@ -44,13 +44,12 @@ const buscar = async (req, res) => {
 
 /**
  * Criar OU mesclar produto/variação
- * Regra:
- * - Procura produto por (nome, marca_id, categoria_id). Se existir, reaproveita.
- * - Para cada variação recebida (cor_id, tamanho_id, quantidade):
- *      - se já existir, soma quantidade
- *      - se não existir, cria
- * - Recalcula `estoque` do Produto como soma das quantidades das variações
- * Aceita upload de imagem/vídeo via uploadMiddleware (fields: imagem, video)
+ * - Match de produto por (nome, marca_id, categoria_id)
+ * - Para cada variação (cor_id, tamanho_id, quantidade):
+ *    - se existir: soma quantidade e, se não tiver imagem, herda a imagem do produto enviada agora
+ *    - se não existir: cria e define imagem da variação = imagem do produto (se enviada)
+ * - Recalcula `estoque` = soma das quantidades das variações
+ * - Aceita upload via uploadMiddleware (fields: imagem, video)
  */
 const criarOuMesclar = async (req, res) => {
   const t = await sequelize.transaction();
@@ -61,7 +60,6 @@ const criarOuMesclar = async (req, res) => {
       preco,
       marca_id,
       categoria_id,
-      // pode vir string (multipart) ou array JSON
       variacoes = [],
     } = req.body;
 
@@ -70,26 +68,27 @@ const criarOuMesclar = async (req, res) => {
       try {
         variacoes = JSON.parse(variacoes);
       } catch {
+        await t.rollback();
         return res.status(400).json({ error: "Campo 'variacoes' deve ser um JSON válido." });
       }
     }
     if (!Array.isArray(variacoes)) variacoes = [];
 
-    // uploads
+    // uploads recebidos do produto
     const imagemFile = req.files?.imagem?.[0];
-    const videoFile = req.files?.video?.[0];
-    const imagem_url = imagemFile ? `/uploads/images/${imagemFile.filename}` : null;
-    const video_url = videoFile ? `/uploads/videos/${videoFile.filename}` : null;
+    const videoFile  = req.files?.video?.[0];
+    const imagem_url_produto = imagemFile ? `/uploads/images/${imagemFile.filename}` : null;
+    const video_url  = videoFile ? `/uploads/videos/${videoFile.filename}` : null;
 
-    // validações básicas
+    // validações
     if (!nome || !preco || !marca_id || !categoria_id) {
+      await t.rollback();
       return res.status(400).json({
         error: "Campos obrigatórios: nome, preco, marca_id, categoria_id",
       });
     }
 
     // Busca (ou cria) o produto por nome exato + marca + categoria
-    // (remova qualquer sufixo que você tenha colocado nos testes para permitir o match)
     let produto = await Produto.findOne({
       where: { nome, marca_id, categoria_id },
       transaction: t,
@@ -102,8 +101,8 @@ const criarOuMesclar = async (req, res) => {
           nome,
           descricao,
           preco,
-          estoque: 0, // recalculamos já já
-          imagem_url,
+          estoque: 0, // será recalculado
+          imagem_url: imagem_url_produto,
           video_url,
           marca_id,
           categoria_id,
@@ -111,20 +110,21 @@ const criarOuMesclar = async (req, res) => {
         { transaction: t }
       );
     } else {
-      // Se já existe, podemos atualizar campos opcionais se foram enviados
+      // Atualiza campos opcionais se vieram
       const patch = {};
       if (descricao !== null && descricao !== undefined) patch.descricao = descricao;
       if (preco !== undefined) patch.preco = preco;
-      if (imagem_url) patch.imagem_url = imagem_url;
+      if (imagem_url_produto) patch.imagem_url = imagem_url_produto; // atualiza imagem do produto
       if (video_url) patch.video_url = video_url;
       if (Object.keys(patch).length) {
         await produto.update(patch, { transaction: t });
       }
     }
 
-    // Para cada variação: soma ou cria
+    // HERANÇA: se o produto tiver imagem nova, variações novas herdam;
+    // variações existentes SEM imagem passam a herdar também
     for (const v of variacoes) {
-      const { cor_id, tamanho_id, quantidade = 0, imagem_url: imgVar = null } = v || {};
+      const { cor_id, tamanho_id, quantidade = 0 } = v || {};
       if (!cor_id || !tamanho_id) {
         await t.rollback();
         return res
@@ -145,26 +145,26 @@ const criarOuMesclar = async (req, res) => {
       });
 
       if (existente) {
-        // soma a quantidade
+        // soma a quantidade (se > 0)
         if (quantidade > 0) {
           await existente.update(
-            {
-              quantidade: literal(`quantidade + ${quantidade}`),
-              // opcionalmente, atualiza a imagem da variação se enviada
-              ...(imgVar ? { imagem_url: imgVar } : {}),
-            },
+            { quantidade: literal(`quantidade + ${quantidade}`) },
             { transaction: t }
           );
         }
+        // se a variação ainda NÃO tem imagem e o produto tem, herda agora
+        if (!existente.imagem_url && imagem_url_produto) {
+          await existente.update({ imagem_url: imagem_url_produto }, { transaction: t });
+        }
       } else {
-        // cria nova variação
+        // cria nova variação (já herdando a imagem do produto, se existir)
         await ProdutoVariacao.create(
           {
             produto_id: produto.id,
             cor_id,
             tamanho_id,
             quantidade,
-            imagem_url: imgVar || null,
+            imagem_url: imagem_url_produto || null,
           },
           { transaction: t }
         );
@@ -180,7 +180,7 @@ const criarOuMesclar = async (req, res) => {
 
     await t.commit();
 
-    // Retorna produto atualizado com associações
+    // Retorna produto com associações
     const resposta = await Produto.findByPk(produto.id, {
       include: [{ model: ProdutoVariacao, include: [Cor, Tamanho] }],
     });
@@ -188,7 +188,6 @@ const criarOuMesclar = async (req, res) => {
   } catch (e) {
     await t.rollback();
     console.error(e);
-    // Trate violação da unique (produto_id,cor_id,tamanho_id) com merge seguro
     if (e.name === "SequelizeUniqueConstraintError") {
       return res.status(409).json({
         error:
@@ -237,10 +236,83 @@ const remover = async (req, res) => {
   }
 };
 
+const { Op, fn, col, where, literal } = require("sequelize");
+// ... seus requires existentes
+
+/**
+ * GET /produtos/busca?q=<texto>&marca=<textoOpcional>&page=1&limit=20
+ * - Busca por nome do produto contendo `q` (parcial, case-insensitive)
+ * - Se `marca` vier, filtra também pelo nome da marca (parcial)
+ * - Retorna paginação + includes (variações com Cor/Tamanho)
+ */
+const buscarTexto = async (req, res) => {
+  try {
+    const q = (req.query.q || "").trim();
+    const marcaNome = (req.query.marca || "").trim();
+    const page = Math.max(parseInt(req.query.page || "1", 10), 1);
+    const limit = Math.min(Math.max(parseInt(req.query.limit || "20", 10), 1), 100);
+    const offset = (page - 1) * limit;
+
+    if (!q) {
+      return res.status(400).json({ error: "Parâmetro 'q' é obrigatório." });
+    }
+
+    // where: nome do produto contém q (case-insensitive)
+    const whereProduto = where(fn("LOWER", col("Produto.nome")), {
+      [Op.like]: `%${q.toLowerCase()}%`,
+    });
+
+    // include da marca (se filtrar por nome de marca)
+    const include = [
+      {
+        model: ProdutoVariacao,
+        include: [Cor, Tamanho],
+      },
+      {
+        model: Marca,
+        // se marcaNome vier, forçamos filtro na própria include
+        ...(marcaNome
+          ? {
+              required: true,
+              where: where(fn("LOWER", col("Marca.nome")), {
+                [Op.like]: `%${marcaNome.toLowerCase()}%`,
+              }),
+            }
+          : {}),
+      },
+      {
+        model: Categoria,
+      },
+    ];
+
+    const { rows, count } = await Produto.findAndCountAll({
+      where: whereProduto,
+      include,
+      order: [["id", "DESC"]],
+      limit,
+      offset,
+    });
+
+    return res.json({
+      meta: {
+        page,
+        limit,
+        total: count,
+        pages: Math.ceil(count / limit),
+      },
+      data: rows,
+    });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Erro ao buscar produtos" });
+  }
+};
+
 module.exports = {
   listar,
   buscar,
   criarOuMesclar,
   atualizar,
   remover,
+  buscarTexto,
 };

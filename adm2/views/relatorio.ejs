@@ -1,0 +1,18 @@
+<% layout('layout') -%>
+<section class="space-y-6">
+  <h1 class="text-2xl font-semibold">Relatório</h1>
+  <div class="grid md:grid-cols-3 gap-4">
+    <div class="p-4 bg-white border rounded">
+      <div class="text-xs text-slate-500">Produtos</div>
+      <div class="text-3xl font-bold"><%= kpis.totalProdutos %></div>
+    </div>
+    <div class="p-4 bg-white border rounded">
+      <div class="text-xs text-slate-500">Variações</div>
+      <div class="text-3xl font-bold"><%= kpis.totalVariacoes %></div>
+    </div>
+    <div class="p-4 bg-white border rounded">
+      <div class="text-xs text-slate-500">Estoque total</div>
+      <div class="text-3xl font-bold"><%= kpis.estoqueTotal %></div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,14 @@
+<%
+const _items = Array.isArray(items) ? items : [];
+const _value = (typeof value !== 'undefined') ? String(value) : '';
+%>
+<div class="flex flex-col gap-1">
+  <label for="<%= name %>" class="text-sm text-slate-700"><%= label %></label>
+  <select id="<%= name %>" name="<%= name %>" class="border rounded px-3 py-2">
+    <% _items.forEach(it => { 
+         const v = String(it.value);
+    %>
+      <option value="<%= v %>" <%= v === _value ? 'selected' : '' %>><%= it.text %></option>
+    <% }) %>
+  </select>
+</div>

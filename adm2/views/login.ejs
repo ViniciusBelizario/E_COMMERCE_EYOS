@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title><%= typeof title !== 'undefined' ? title + ' • ' : '' %>E-Commerce Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/public/css/custom.css">
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900 flex items-center justify-center p-6">
+  <div class="w-full max-w-md">
+    <div class="bg-white border border-slate-200 rounded-lg shadow-sm p-6">
+      <div class="mb-6 text-center">
+        <div class="text-xl font-semibold">E-Commerce</div>
+        <div class="text-xs text-slate-500">Admin • Roupas</div>
+      </div>
+
+      <% if (msg) { %>
+        <div class="mb-4 p-3 rounded bg-amber-50 text-amber-700 border border-amber-200">
+          <%= msg %>
+        </div>
+      <% } %>
+
+      <form method="POST" action="/auth/login" class="space-y-4">
+        <div class="flex flex-col gap-1">
+          <label for="email" class="text-sm text-slate-700">E-mail</label>
+          <input id="email" name="email" type="email" required
+                 placeholder="admin@loja.com.br"
+                 class="border rounded px-3 py-2 focus:outline-none focus:ring w-full">
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <label for="senha" class="text-sm text-slate-700">Senha</label>
+          <input id="senha" name="senha" type="password" required
+                 placeholder="••••••••"
+                 class="border rounded px-3 py-2 focus:outline-none focus:ring w-full">
+        </div>
+
+        <button class="btn w-full">Entrar</button>
+      </form>
+
+      <div class="mt-6 text-center">
+        <p class="text-xs text-slate-500">Ao entrar, você concorda com os termos de uso.</p>
+      </div>
+    </div>
+
+    <div class="mt-4 text-center">
+      <a href="/login" class="text-xs text-slate-400 hover:text-slate-600">© <%= new Date().getFullYear() %> E-Commerce</a>
+    </div>
+  </div>
+</body>
+</html>

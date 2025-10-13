@@ -11,13 +11,13 @@ const router = express.Router();
 router.get("/", ProdutoController.listar);
 router.get("/:id", ProdutoController.buscar);
 
-// Admin
+// Admin — cria/mescla produto; variações herdam imagem do produto quando apropriado
 router.post(
   "/",
   auth,
   adminOnly,
-  upload,                 // aceita imagem e vídeo
-  ProdutoController.criarOuMesclar // cria ou soma variação
+  upload, // fields: imagem, video
+  ProdutoController.criarOuMesclar
 );
 
 router.put(

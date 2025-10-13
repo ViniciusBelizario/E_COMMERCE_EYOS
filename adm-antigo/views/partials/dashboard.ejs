@@ -1,0 +1,13 @@
+<!--views\partials\dashboard.ejs-->
+<main>
+        <h2>Dashboard</h2>
+        <p>Escolha uma das opções acima para gerenciar o conteúdo.</p>
+    </main>
+
+    <script>
+        document.getElementById("logout").addEventListener("click", () => {
+            localStorage.removeItem("token"); // Remove o token do localStorage
+            document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"; // Remove o token do cookie
+            window.location.href = "/auth/login"; // Redireciona para o login
+        });
+    </script>

@@ -1,0 +1,106 @@
+<% layout('layout') -%>
+<section class="space-y-6">
+  <h1 class="text-2xl font-semibold">Cadastro • Cores</h1>
+
+  <form method="POST" class="bg-white border rounded p-4 space-y-4">
+    <div class="grid md:grid-cols-3 gap-4">
+      <%- include('../components/formInput', {
+        name:'nome',
+        label:'Cor',
+        placeholder:'Ex.: Preto'
+      }) %>
+
+      <!-- Campo HEX com color picker sincronizado -->
+      <div class="flex flex-col gap-1">
+        <label for="codigo_hex" class="text-sm text-slate-700">HEX</label>
+        <div class="flex items-center gap-2">
+          <!-- seletor de cor -->
+          <input
+            id="picker_codigo_hex"
+            type="color"
+            value="#000000"
+            class="h-10 w-12 border rounded"
+            aria-label="Selecionar cor"
+          />
+          <!-- campo que vai para a API -->
+          <input
+            id="codigo_hex"
+            name="codigo_hex"
+            type="text"
+            placeholder="#000000"
+            class="border rounded px-3 py-2 focus:outline-none focus:ring w-full"
+          />
+        </div>
+        <p class="text-xs text-slate-500">Clique no seletor ou cole um HEX (#RRGGBB). Aceita também forma curta (#RGB).</p>
+      </div>
+    </div>
+    <button class="btn">Salvar</button>
+  </form>
+
+  <%- include('../components/table', {
+    cols: [
+      { key:'id',         label:'ID' },
+      { key:'nome',       label:'Cor' },
+      { key:'codigo_hex', label:'HEX' }
+    ],
+    rows: items,
+    basePath: '/cadastro/cores'
+  }) %>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const picker = document.getElementById('picker_codigo_hex');
+    const hex    = document.getElementById('codigo_hex');
+
+    // normaliza para #RRGGBB e uppercase; aceita #RGB
+    function normalize(val) {
+      if (!val) return '';
+      val = String(val).trim();
+      if (!val.startsWith('#')) val = '#' + val;
+      const short = /^#[0-9a-fA-F]{3}$/;
+      const full  = /^#[0-9a-fA-F]{6}$/;
+      if (short.test(val)) {
+        // expande #RGB -> #RRGGBB
+        val = '#' + val[1] + val[1] + val[2] + val[2] + val[3] + val[3];
+      }
+      if (full.test(val)) return val.toUpperCase();
+      return null; // inválido
+    }
+
+    // Inicializa valores (se já veio algo do servidor)
+    const initial = normalize(hex.value) || '#000000';
+    hex.value = initial;
+    picker.value = initial;
+
+    // Muda no picker -> atualiza HEX
+    picker.addEventListener('input', () => {
+      hex.value = picker.value.toUpperCase();
+    });
+
+    // Digita no HEX -> valida/sincroniza picker
+    hex.addEventListener('input', () => {
+      const n = normalize(hex.value);
+      if (n) {
+        picker.value = n;
+        hex.dataset.valid = '1';
+      } else {
+        hex.dataset.valid = '0';
+      }
+    });
+
+    // Ao sair do campo, força normalização (#RRGGBB)
+    hex.addEventListener('blur', () => {
+      const n = normalize(hex.value);
+      if (n) {
+        hex.value = n;
+        picker.value = n;
+      }
+    });
+
+    // Ao focar no HEX, abre o seletor de cor (quando suportado)
+    hex.addEventListener('focus', () => {
+      if (picker.showPicker) picker.showPicker();
+    });
+  });
+</script>

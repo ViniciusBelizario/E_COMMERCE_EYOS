@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><%= typeof title !== 'undefined' ? title + ' • ' : '' %>E-Commerce Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/public/css/custom.css">
+</head>
+<body class="bg-slate-50 text-slate-900">
+  <div class="min-h-screen flex">
+    <%- include('partials/_sidebar') %>
+
+    <div class="flex-1 flex flex-col">
+      <%- include('partials/_topbar') %>
+
+      <main class="p-6">
+        <%- include('partials/_flash') %>
+        <%- body %>
+      </main>
+    </div>
+  </div>
+  <script src="/public/js/main.js"></script>
+</body>
+</html>
