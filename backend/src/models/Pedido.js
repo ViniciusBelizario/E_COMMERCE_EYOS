@@ -22,6 +22,7 @@ const Pedido = sequelize.define(
       ),
       defaultValue: "aguardando_pagamento",
       allowNull: false,
+      comment: "Status geral do pedido (negócio)."
     },
 
     observacoes: { type: DataTypes.TEXT, allowNull: true },
@@ -46,11 +47,11 @@ const Pedido = sequelize.define(
     },
     shipping_status: {
       type: DataTypes.ENUM(
-        "pendente",            // rascunho criado, etiqueta não comprada
-        "etiqueta_comprada",   // etiqueta comprada (checkout no ME)
-        "postado",             // postado na transportadora
-        "em_transporte",       // em trânsito
-        "entregue"             // entregue
+        "pendente",
+        "etiqueta_comprada",
+        "postado",
+        "em_transporte",
+        "entregue"
       ),
       allowNull: true,
       defaultValue: "pendente",
@@ -65,17 +66,57 @@ const Pedido = sequelize.define(
       allowNull: true,
       comment: "JSON bruto de respostas do provedor (checkout/label/track)",
     },
-
-    // IDs específicos do Melhor Envio
     me_shipment_id: {
       type: DataTypes.STRING,
       allowNull: true,
-      comment: "ID do envio criado no Melhor Envio (rascunho)",
+      comment: "ID do envio criado no Melhor Envio (rascunho/carrinho)",
     },
     me_label_id: {
       type: DataTypes.STRING,
       allowNull: true,
-      comment: "ID/identificador da etiqueta após compra",
+      comment: "ID/identificador da etiqueta após compra/geração",
+    },
+
+    // ====== PAGAMENTO / MERCADO PAGO ======
+    payment_provider: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      comment: "Provedor de pagamento. Ex.: mercado_pago",
+    },
+    payment_status: {
+      type: DataTypes.ENUM(
+        "pending",
+        "approved",
+        "authorized",
+        "in_process",
+        "in_mediation",
+        "rejected",
+        "cancelled",
+        "refunded",
+        "charged_back"
+      ),
+      allowNull: true,
+      comment: "Status retornado pelo provedor (MP)."
+    },
+    payment_total: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: true,
+      comment: "Valor total cobrado pelo provedor (quando aplicável).",
+    },
+    mp_preference_id: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      comment: "ID da Preference do Mercado Pago (Checkout Pro).",
+    },
+    mp_payment_id: {
+      type: DataTypes.STRING, // <- corrigido aqui
+      allowNull: true,
+      comment: "ID do pagamento no Mercado Pago (payments/{id}).",
+    },
+    payment_raw: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      comment: "JSON bruto de notificações/consultas do provedor de pagamento.",
     },
   },
   { tableName: "Pedido" }

@@ -15,6 +15,8 @@ const freteRoutes = require("./freteRoutes");
 const adminPedidoRoutes = require("./adminPedidoRoutes");
 const auth = require("../middlewares/authMiddleware");
 const adminOnly = require("../middlewares/adminOnly");
+const pagamentoRoutes = require("./pagamentoRoutes");
+const pagamentoMPRoutes = require("./pagamentoMPRoutes");
 
 const router = express.Router();
 
@@ -32,5 +34,7 @@ router.use("/fretes", freteRoutes);
 
 
 router.use("/admin/pedidos", auth, adminOnly, adminPedidoRoutes);
+router.use("/pagamentos", pagamentoRoutes);
+router.use("/pagamentos/mp", pagamentoMPRoutes); 
 
 module.exports = router;
