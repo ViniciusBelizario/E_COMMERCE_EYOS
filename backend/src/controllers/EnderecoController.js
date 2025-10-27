@@ -1,81 +1,140 @@
 // src/controllers/EnderecoController.js
 const Endereco = require("../models/Endereco");
 
-exports.listarEnderecos = async (req, res) => {
+function trimStr(s) {
+  return s == null ? s : String(s).trim();
+}
+
+exports.listarMeusEnderecos = async (req, res) => {
   try {
-    const usuario_id = req.user.id; // Obtém o ID do usuário autenticado pelo JWT
-    const enderecos = await Endereco.findAll({ where: { usuario_id } });
-    
+    const userId = req.user?.id;
+    if (!userId) return res.status(401).json({ error: "Não autenticado." });
+
+    const enderecos = await Endereco.findAll({
+      where: { usuario_id: userId },
+      order: [["id", "DESC"]],
+    });
     return res.json(enderecos);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Erro ao listar endereços" });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Erro ao listar endereços." });
+  }
+};
+
+exports.buscarMeuEndereco = async (req, res) => {
+  try {
+    const userId = req.user?.id;
+    const { id } = req.params;
+
+    const endereco = await Endereco.findOne({
+      where: { id, usuario_id: userId },
+    });
+
+    if (!endereco) return res.status(404).json({ error: "Endereço não encontrado." });
+    return res.json(endereco);
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Erro ao buscar endereço." });
   }
 };
 
 exports.criarEndereco = async (req, res) => {
   try {
-    const { rua, cidade, estado, cep, pais } = req.body;
-    const usuario_id = req.user.id; // Obtém o ID do usuário autenticado pelo JWT
+    const userId = req.user?.id;
+    if (!userId) return res.status(401).json({ error: "Não autenticado." });
 
-    const endereco = await Endereco.create({ rua, cidade, estado, cep, pais, usuario_id });
-    return res.status(201).json(endereco);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Erro ao criar endereço" });
-  }
-};
+    let {
+      rua,
+      bairro,
+      cidade,
+      estado,
+      cep,
+      numero,
+      complemento,
+      pais,
+    } = req.body || {};
 
-exports.buscarEndereco = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const usuario_id = req.user.id; 
+    rua = trimStr(rua);
+    cidade = trimStr(cidade);
+    estado = trimStr(estado);
+    cep = trimStr(cep);
+    pais = trimStr(pais) || "Brasil"; // default
+    bairro = trimStr(bairro);
+    numero = trimStr(numero);
+    complemento = trimStr(complemento);
 
-    const endereco = await Endereco.findOne({ where: { id, usuario_id } });
-    if (!endereco) {
-      return res.status(404).json({ error: "Endereço não encontrado ou não pertence a você" });
+    if (!rua || !cidade || !estado || !cep || !pais) {
+      return res.status(400).json({
+        error: "Campos obrigatórios: rua, cidade, estado, cep, pais.",
+      });
     }
 
-    return res.json(endereco);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Erro ao buscar endereço" });
+    const criado = await Endereco.create({
+      rua,
+      bairro,
+      cidade,
+      estado,
+      cep,
+      numero,
+      complemento,
+      pais,
+      usuario_id: userId,
+    });
+
+    return res.status(201).json(criado);
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Erro ao criar endereço." });
   }
 };
 
 exports.atualizarEndereco = async (req, res) => {
   try {
+    const userId = req.user?.id;
     const { id } = req.params;
-    const { rua, cidade, estado, cep, pais } = req.body;
-    const usuario_id = req.user.id; 
 
-    const endereco = await Endereco.findOne({ where: { id, usuario_id } });
-    if (!endereco) {
-      return res.status(404).json({ error: "Endereço não encontrado ou não pertence a você" });
-    }
+    const endereco = await Endereco.findOne({
+      where: { id, usuario_id: userId },
+    });
+    if (!endereco) return res.status(404).json({ error: "Endereço não encontrado." });
 
-    await endereco.update({ rua, cidade, estado, cep, pais });
-    return res.json({ message: "Endereço atualizado", endereco });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Erro ao atualizar endereço" });
+    const patch = {};
+    const campos = [
+      "rua",
+      "bairro",
+      "cidade",
+      "estado",
+      "cep",
+      "numero",
+      "complemento",
+      "pais",
+    ];
+    campos.forEach((c) => {
+      if (req.body[c] !== undefined) patch[c] = trimStr(req.body[c]);
+    });
+
+    await endereco.update(patch);
+    return res.json(endereco);
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Erro ao atualizar endereço." });
   }
 };
 
-exports.deletarEndereco = async (req, res) => {
+exports.removerEndereco = async (req, res) => {
   try {
+    const userId = req.user?.id;
     const { id } = req.params;
-    const usuario_id = req.user.id; 
 
-    const endereco = await Endereco.findOne({ where: { id, usuario_id } });
-    if (!endereco) {
-      return res.status(404).json({ error: "Endereço não encontrado ou não pertence a você" });
-    }
+    const endereco = await Endereco.findOne({
+      where: { id, usuario_id: userId },
+    });
+    if (!endereco) return res.status(404).json({ error: "Endereço não encontrado." });
 
     await endereco.destroy();
-    return res.json({ message: "Endereço deletado com sucesso" });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Erro ao deletar endereço" });
+    return res.json({ message: "Endereço removido com sucesso." });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Erro ao remover endereço." });
   }
 };

@@ -1,9 +1,7 @@
 // src/routes/index.js
 const express = require("express");
 
-// Import das rotas
 const authRoutes = require("./authRoutes");
-const usuarioRoutes = require("./usuarioRoutes");
 const enderecoRoutes = require("./enderecoRoutes");
 const marcaRoutes = require("./marcaRoutes");
 const corRoutes = require("./corRoutes");
@@ -12,11 +10,15 @@ const categoriaRoutes = require("./categoriaRoutes");
 const produtoRoutes = require("./produtoRoutes");
 const produtoVariacaoRoutes = require("./produtoVariacaoRoutes");
 const carrinhoRoutes = require("./carrinhoRoutes");
+const pedidoRoutes = require("./pedidoRoutes");
+const freteRoutes = require("./freteRoutes");
+const adminPedidoRoutes = require("./adminPedidoRoutes");
+const auth = require("../middlewares/authMiddleware");
+const adminOnly = require("../middlewares/adminOnly");
 
 const router = express.Router();
 
 router.use("/auth", authRoutes);
-router.use("/usuarios", usuarioRoutes);
 router.use("/enderecos", enderecoRoutes);
 router.use("/marcas", marcaRoutes);
 router.use("/cores", corRoutes);
@@ -25,5 +27,10 @@ router.use("/categorias", categoriaRoutes);
 router.use("/produtos", produtoRoutes);
 router.use("/produto-variacoes", produtoVariacaoRoutes);
 router.use("/carrinho", carrinhoRoutes);
+router.use("/pedidos", pedidoRoutes);
+router.use("/fretes", freteRoutes);
+
+
+router.use("/admin/pedidos", auth, adminOnly, adminPedidoRoutes);
 
 module.exports = router;

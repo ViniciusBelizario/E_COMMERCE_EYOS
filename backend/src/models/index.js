@@ -18,7 +18,7 @@ try {
   Pedido = require("./Pedido");
   PedidoItem = require("./PedidoItem");
 } catch (_) {
-  // se ainda não existem, seguimos sem eles
+  // Se ainda não existem, seguimos sem eles
 }
 
 /* ==============================
@@ -55,7 +55,8 @@ Produto.belongsTo(Marca, {
 });
 
 /* ==============================
- *  Variações (fonte de verdade)
+ *  Produto 1:N ProdutoVariacao
+ *  + Variações referenciam Cor/Tamanho
  * ============================== */
 Produto.hasMany(ProdutoVariacao, {
   foreignKey: "produto_id",
@@ -114,7 +115,8 @@ CarrinhoItem.belongsTo(Produto, {
   onDelete: "CASCADE",
 });
 
-// Cor/Tamanho no item do carrinho (opcionais) — mantém o item mesmo se a cor/tamanho forem removidos
+// Cor/Tamanho no item do carrinho (opcionais)
+// Mantém o item mesmo se a cor/tamanho forem removidos
 Cor.hasMany(CarrinhoItem, {
   foreignKey: "cor_id",
   onDelete: "SET NULL",

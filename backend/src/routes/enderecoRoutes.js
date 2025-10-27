@@ -1,14 +1,15 @@
+// src/routes/enderecoRoutes.js
 const express = require("express");
 const EnderecoController = require("../controllers/EnderecoController");
-const authMiddleware = require("../middlewares/authMiddleware");
+const auth = require("../middlewares/authMiddleware");
 
 const router = express.Router();
 
-router.use(authMiddleware);
-
-router.get("/", EnderecoController.listarEnderecos);
-router.post("/", EnderecoController.criarEndereco);
-router.put("/:id", EnderecoController.atualizarEndereco);
-router.delete("/:id", EnderecoController.deletarEndereco);
+// Todas as rotas são do usuário autenticado
+router.get("/", auth, EnderecoController.listarMeusEnderecos);
+router.get("/:id", auth, EnderecoController.buscarMeuEndereco);
+router.post("/", auth, EnderecoController.criarEndereco);
+router.put("/:id", auth, EnderecoController.atualizarEndereco);
+router.delete("/:id", auth, EnderecoController.removerEndereco);
 
 module.exports = router;
